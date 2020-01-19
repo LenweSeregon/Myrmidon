@@ -54,16 +54,17 @@
 
         #region Methods
 
-        public MyrmidonEditorLayout(MyrmidonLayoutElement[] elements, bool forceExpandWidth, bool forceExpandHeight, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight):
-            base(preferredWidth, preferredHeight, flexibleWidth, flexibleHeight)
+        public MyrmidonEditorLayout(MyrmidonLayoutElement[] elements, bool forceExpandWidth, bool forceExpandHeight):
+            base()
         {
             _mElements = elements;
             _mForceChildToExpandWidth = forceExpandWidth;
             _mForceChildToExpandHeight = forceExpandHeight;
         }
 
-        public MyrmidonEditorLayout(MyrmidonLayoutElement[] elements, bool forceExpandWidth, bool forceExpandHeight):
-            base()
+        
+        public MyrmidonEditorLayout(MyrmidonLayoutElement[] elements, bool forceExpandWidth, bool forceExpandHeight, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight):
+            base(preferredWidth, preferredHeight, flexibleWidth, flexibleHeight)
         {
             _mElements = elements;
             _mForceChildToExpandWidth = forceExpandWidth;
@@ -103,7 +104,6 @@
             {
                 maxHeight += element.FlexibleHeight;
             }
-            Debug.Log("MAX : " + maxHeight);
         }
 
 
@@ -131,6 +131,7 @@
         public override void Draw()
         {
             base.Draw();
+            ComputeRects();
             foreach(MyrmidonLayoutElement element in _mElements)
             {
                 element.Draw();

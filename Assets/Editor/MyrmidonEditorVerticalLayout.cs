@@ -14,6 +14,12 @@
 
         }
 
+        public MyrmidonEditorVerticalLayout(MyrmidonLayoutElement[] elements, bool forceExpandWidth, bool forceExpandHeight, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight):
+            base(elements, forceExpandWidth, forceExpandHeight, preferredWidth, preferredHeight, flexibleWidth, flexibleHeight)
+        {
+
+        }
+
         /// <summary>
         /// La manière de fonctionner est la suivante :
         ///     - On assigne tout d'abord toutes les preferred size qui sont des valeurs en pixels 

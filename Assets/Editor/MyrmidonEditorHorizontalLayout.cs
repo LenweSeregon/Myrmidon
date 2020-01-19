@@ -14,6 +14,12 @@
 
         }
 
+        public MyrmidonEditorHorizontalLayout(MyrmidonLayoutElement[] elements, bool forceExpandWidth, bool forceExpandHeight, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight):
+            base(elements, forceExpandWidth, forceExpandHeight, preferredWidth, preferredHeight, flexibleWidth, flexibleHeight)
+        {
+
+        }
+
         public override void ComputeRects()
         {
             if(_mRect != null)
@@ -29,7 +35,7 @@
                 {
                     MyrmidonLayoutElement element = _mElements[i];
                     rects[i].height = 0f;
-                    rects[i].x = _mRect.y + _mPaddingTop;
+                    rects[i].y = _mRect.y + _mPaddingTop;
 
                     if(_mForceChildToExpandHeight)
                     {
@@ -59,23 +65,25 @@
                 {
                     float minBoundFlexibleWidth = 0f;
                     float maxBoundFlexibleWidth = 0f;
-                    ComputeRangeFlexibleHeight(out minBoundFlexibleWidth, out maxBoundFlexibleWidth);
+                    ComputeRangeFlexibleWidth(out minBoundFlexibleWidth, out maxBoundFlexibleWidth);
                 
                     for(int i = 0; i < _mElements.Length; i++)
                     {
                         MyrmidonLayoutElement element = _mElements[i];
-                        float normalizedValue = (element.FlexibleHeight - minBoundFlexibleWidth) / (maxBoundFlexibleWidth - minBoundFlexibleWidth);
-                        float additionalHeight = remainingWidth * normalizedValue;
-                        rects[i].height += additionalHeight;
+                        float normalizedValue = (element.FlexibleWidth - minBoundFlexibleWidth) / (maxBoundFlexibleWidth - minBoundFlexibleWidth);
+                        Debug.Log("Normalized value for " + i + " : " +  normalizedValue);
+                        float additionalWidth = remainingWidth * normalizedValue;
+                        Debug.Log("Additional width for " + i + " : " +  additionalWidth);
+                        rects[i].width += additionalWidth;
                     }
                 }
 
-                // Assigning Y position
-                float currentY = _mRect.y + _mPaddingTop;
+                // Assigning X position
+                float currentX = _mRect.x + _mPaddingLeft;
                 for(int i = 0; i < _mElements.Length; i++)
                 {
-                    rects[i].y = currentY;
-                    currentY += rects[i].height + _mSpacing; 
+                    rects[i].x = currentX;
+                    currentX += rects[i].width + _mSpacing; 
                 }
 
                 // Assigning rects
