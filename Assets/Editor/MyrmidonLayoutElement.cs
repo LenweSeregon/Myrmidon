@@ -55,6 +55,9 @@
             _mRect = rect;
         }
 
+        public virtual void ProcessEvents(Event e)
+        { }
+
         public virtual void Draw()
         {
             if(_mRect != null)

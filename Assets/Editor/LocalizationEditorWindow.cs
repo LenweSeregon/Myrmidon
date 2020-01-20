@@ -20,8 +20,8 @@
         
         private void OnGUI() 
         {
-            TestLayoutHorizontal();
-            //TestLayoutVerticalThenHorizontal();
+            //TestLayoutVertical();
+            TestLayoutVerticalThenHorizontal();
         }
 
         private void TestLayoutVertical()
@@ -79,7 +79,6 @@
             MyrmidonLayoutElement panel01 = new MyrmidonLayoutElement(0, 0, 1, 1); //20
             MyrmidonLayoutElement panel02 = new MyrmidonLayoutElement(0, 0, 1, 1); //30
             MyrmidonLayoutElement panel03 = new MyrmidonLayoutElement(0, 0, 1, 1); //50
-            //MyrmidonLayoutElement panel04 = new MyrmidonLayoutElement(0, 0, 10, 1); //50
             MyrmidonEditorLayout panel04 = new MyrmidonEditorHorizontalLayout(new List<MyrmidonLayoutElement>{panel04_01, panel04_02, panel04_03}, true, true, false, 0, 0, 1, 1);
             panel04.SetPadding(10, 10, 10, 10);
             panel04.Spacing = 5f;
