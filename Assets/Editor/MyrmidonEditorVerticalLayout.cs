@@ -29,13 +29,16 @@
         private void AddResizableToElements()
         {
             List<MyrmidonLayoutElement> elementsWithResizable = new List<MyrmidonLayoutElement>();
+            
             for (int i = 0; i < _mElements.Count; i++)
             {
                 elementsWithResizable.Add(_mElements[i]);
 
                 if (i < _mElements.Count - 1)
                 {
-                    MyrmidonLayoutElement resizable = new MyrmidonLayoutElement(0, 5f, 1, 0);
+                    MyrmidonLayoutElement beforePanel = (i == 0) ? (null) : (_mElements[i - 1]);
+                    MyrmidonLayoutElement nextPanel = _mElements[i + 1];
+                    MyrmidonLayoutElement resizable = new MyrmidonResizerElement(beforePanel, nextPanel, 0, RESIZER_SIZE, 1, 0, MyrmidonResizerType.Vertical);
                     resizable.AssignBackgroundColor(Color.black);
                     elementsWithResizable.Add(resizable);
                 }

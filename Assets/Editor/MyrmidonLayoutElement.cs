@@ -19,7 +19,7 @@
         #endregion
 
         #region Properties
-
+        public Rect Rect => _mRect;
         public float PreferredWidth => _mPreferredWidth;
         public float PreferredHeight => _mPreferredHeight;
         public float FlexibleWidth => _mFlexibleWidth;
@@ -52,6 +52,7 @@
 
         public void AssignRect(Rect rect)
         {
+            Debug.Log("ASSIGN");
             _mRect = rect;
         }
 

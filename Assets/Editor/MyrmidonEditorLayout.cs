@@ -11,7 +11,7 @@
     public abstract class MyrmidonEditorLayout : MyrmidonLayoutElement
     {
         #region Constantes
-        protected const int RESIZER_SIZE = 5;
+        protected const float RESIZER_SIZE = 4f;
         #endregion
 
         #region Internal Fields
@@ -135,10 +135,18 @@
 
             return false;
         }
+
+        public override void ProcessEvents(Event e)
+        {
+            base.ProcessEvents(e);
+            foreach(MyrmidonLayoutElement element in _mElements)
+            {
+                element.ProcessEvents(e);
+            }
+        }
         public override void Draw()
         {
             base.Draw();
-            ComputeRects();
             foreach(MyrmidonLayoutElement element in _mElements)
             {
                 element.Draw();
