@@ -8,30 +8,54 @@
     {
         #region Methods
         
-        public MyrmidonEditorHorizontalLayout(MyrmidonLayoutElement[] elements, bool forceExpandWidth, bool forceExpandHeight):
-            base(elements, forceExpandWidth, forceExpandHeight)
+        public MyrmidonEditorHorizontalLayout(List<MyrmidonLayoutElement> elements, bool forceExpandWidth, bool forceExpandHeight, bool canResize):
+            base(elements, forceExpandWidth, forceExpandHeight, canResize)
         {
-
+            if (_mCanResizeElements && _mElements.Count > 1)
+            {
+                AddResizableToElements();
+            }
         }
 
-        public MyrmidonEditorHorizontalLayout(MyrmidonLayoutElement[] elements, bool forceExpandWidth, bool forceExpandHeight, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight):
-            base(elements, forceExpandWidth, forceExpandHeight, preferredWidth, preferredHeight, flexibleWidth, flexibleHeight)
+        public MyrmidonEditorHorizontalLayout(List<MyrmidonLayoutElement> elements, bool forceExpandWidth, bool forceExpandHeight, bool canResize, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight):
+            base(elements, forceExpandWidth, forceExpandHeight, canResize, preferredWidth, preferredHeight, flexibleWidth, flexibleHeight)
         {
+            if (_mCanResizeElements && _mElements.Count > 1)
+            {
+                AddResizableToElements();
+            }
+        }
 
+        private void AddResizableToElements()
+        {
+            List<MyrmidonLayoutElement> elementsWithResizable = new List<MyrmidonLayoutElement>();
+            for (int i = 0; i < _mElements.Count; i++)
+            {
+                elementsWithResizable.Add(_mElements[i]);
+
+                if (i < _mElements.Count - 1)
+                {
+                    MyrmidonLayoutElement resizable = new MyrmidonLayoutElement(5f, 0, 0, 1);
+                    resizable.AssignBackgroundColor(Color.black);
+                    elementsWithResizable.Add(resizable);
+                }
+            }
+
+            _mElements = elementsWithResizable;
         }
 
         public override void ComputeRects()
         {
             if(_mRect != null)
             {
-                int nbElement = _mElements.Length;
+                int nbElement = _mElements.Count;
                 float widthAvailable = ComputeWidthAvailable(_mRect);
                 float heightAvailable = ComputeHeightAvailable(_mRect);
                 float remainingWidth = widthAvailable;
-                Rect[] rects = new Rect[_mElements.Length];
+                Rect[] rects = new Rect[_mElements.Count];
                 
                 // Assigning height and Y position
-                for(int i = 0; i < _mElements.Length; i++)
+                for(int i = 0; i < _mElements.Count; i++)
                 {
                     MyrmidonLayoutElement element = _mElements[i];
                     rects[i].height = 0f;
@@ -52,7 +76,7 @@
                 }
                 
                 // Assigning width preferred size
-                for(int i = 0; i < _mElements.Length; i++)
+                for(int i = 0; i < _mElements.Count; i++)
                 {
                     MyrmidonLayoutElement element = _mElements[i];
                     rects[i].width = element.PreferredWidth;
@@ -67,7 +91,7 @@
                     float maxBoundFlexibleWidth = 0f;
                     ComputeRangeFlexibleWidth(out minBoundFlexibleWidth, out maxBoundFlexibleWidth);
                 
-                    for(int i = 0; i < _mElements.Length; i++)
+                    for(int i = 0; i < _mElements.Count; i++)
                     {
                         MyrmidonLayoutElement element = _mElements[i];
                         float normalizedValue = (element.FlexibleWidth - minBoundFlexibleWidth) / (maxBoundFlexibleWidth - minBoundFlexibleWidth);
@@ -80,14 +104,14 @@
 
                 // Assigning X position
                 float currentX = _mRect.x + _mPaddingLeft;
-                for(int i = 0; i < _mElements.Length; i++)
+                for(int i = 0; i < _mElements.Count; i++)
                 {
                     rects[i].x = currentX;
                     currentX += rects[i].width + _mSpacing; 
                 }
 
                 // Assigning rects
-                for(int i = 0; i < _mElements.Length; i++)
+                for(int i = 0; i < _mElements.Count; i++)
                 {
                     _mElements[i].AssignRect(rects[i]);
                 }
@@ -99,7 +123,7 @@
             float widthAvailable = position.width;
             widthAvailable -= _mPaddingLeft;
             widthAvailable -= _mPaddingRight;
-            widthAvailable -= _mSpacing * (_mElements.Length - 1);
+            widthAvailable -= _mSpacing * (_mElements.Count - 1);
 
             return widthAvailable;
         }

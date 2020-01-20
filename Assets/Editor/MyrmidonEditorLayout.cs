@@ -10,8 +10,12 @@
     /// </summary>
     public abstract class MyrmidonEditorLayout : MyrmidonLayoutElement
     {
+        #region Constantes
+        protected const int RESIZER_SIZE = 5;
+        #endregion
+
         #region Internal Fields
-        protected MyrmidonLayoutElement[] _mElements;
+        protected List<MyrmidonLayoutElement> _mElements;
         
         protected float _mPaddingTop;
         protected float _mPaddingBottom;
@@ -21,6 +25,7 @@
         protected float _mSpacing;
         protected bool _mForceChildToExpandWidth;
         protected bool _mForceChildToExpandHeight;
+        protected bool _mCanResizeElements;
 
         #endregion
 
@@ -54,21 +59,23 @@
 
         #region Methods
 
-        public MyrmidonEditorLayout(MyrmidonLayoutElement[] elements, bool forceExpandWidth, bool forceExpandHeight):
+        public MyrmidonEditorLayout(List<MyrmidonLayoutElement> elements, bool forceExpandWidth, bool forceExpandHeight, bool canResize):
             base()
         {
             _mElements = elements;
             _mForceChildToExpandWidth = forceExpandWidth;
             _mForceChildToExpandHeight = forceExpandHeight;
+            _mCanResizeElements = canResize;
         }
 
         
-        public MyrmidonEditorLayout(MyrmidonLayoutElement[] elements, bool forceExpandWidth, bool forceExpandHeight, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight):
+        public MyrmidonEditorLayout(List<MyrmidonLayoutElement> elements, bool forceExpandWidth, bool forceExpandHeight, bool canResize, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight):
             base(preferredWidth, preferredHeight, flexibleWidth, flexibleHeight)
         {
             _mElements = elements;
             _mForceChildToExpandWidth = forceExpandWidth;
             _mForceChildToExpandHeight = forceExpandHeight;
+            _mCanResizeElements = canResize;
         }
 
         public void SetPadding(float top, float bottom, float left, float right)

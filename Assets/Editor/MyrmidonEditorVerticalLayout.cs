@@ -7,17 +7,41 @@
     public class MyrmidonEditorVerticalLayout : MyrmidonEditorLayout
     {
         #region Methods
-        
-        public MyrmidonEditorVerticalLayout(MyrmidonLayoutElement[] elements, bool forceExpandWidth, bool forceExpandHeight):
-            base(elements, forceExpandWidth, forceExpandHeight)
-        {
 
+        public MyrmidonEditorVerticalLayout(List<MyrmidonLayoutElement> elements, bool forceExpandWidth, bool forceExpandHeight, bool canResize) :
+            base(elements, forceExpandWidth, forceExpandHeight, canResize)
+        {
+            if(_mCanResizeElements && _mElements.Count > 1)
+            {
+                AddResizableToElements();
+            }
         }
 
-        public MyrmidonEditorVerticalLayout(MyrmidonLayoutElement[] elements, bool forceExpandWidth, bool forceExpandHeight, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight):
-            base(elements, forceExpandWidth, forceExpandHeight, preferredWidth, preferredHeight, flexibleWidth, flexibleHeight)
+        public MyrmidonEditorVerticalLayout(List<MyrmidonLayoutElement> elements, bool forceExpandWidth, bool forceExpandHeight, bool canResize, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight):
+            base(elements, forceExpandWidth, forceExpandHeight, canResize, preferredWidth, preferredHeight, flexibleWidth, flexibleHeight)
         {
+            if(_mCanResizeElements && _mElements.Count > 1)
+            {
+                AddResizableToElements();
+            }
+        }
 
+        private void AddResizableToElements()
+        {
+            List<MyrmidonLayoutElement> elementsWithResizable = new List<MyrmidonLayoutElement>();
+            for (int i = 0; i < _mElements.Count; i++)
+            {
+                elementsWithResizable.Add(_mElements[i]);
+
+                if (i < _mElements.Count - 1)
+                {
+                    MyrmidonLayoutElement resizable = new MyrmidonLayoutElement(0, 5f, 1, 0);
+                    resizable.AssignBackgroundColor(Color.black);
+                    elementsWithResizable.Add(resizable);
+                }
+            }
+
+            _mElements = elementsWithResizable;
         }
 
         /// <summary>
@@ -33,14 +57,14 @@
         {
             if(_mRect != null)
             {
-                int nbElement = _mElements.Length;
+                int nbElement = _mElements.Count;
                 float widthAvailable = ComputeWidthAvailable(_mRect);
                 float heightAvailable = ComputeHeightAvailable(_mRect);
                 float remainingHeight = heightAvailable;
-                Rect[] rects = new Rect[_mElements.Length];
+                Rect[] rects = new Rect[_mElements.Count];
                 
                 // Assigning width and X position
-                for(int i = 0; i < _mElements.Length; i++)
+                for(int i = 0; i < _mElements.Count; i++)
                 {
                     MyrmidonLayoutElement element = _mElements[i];
                     rects[i].width = 0f;
@@ -61,7 +85,7 @@
                 }
                 
                 // Assigning height preferred size
-                for(int i = 0; i < _mElements.Length; i++)
+                for(int i = 0; i < _mElements.Count; i++)
                 {
                     MyrmidonLayoutElement element = _mElements[i];
                     rects[i].height = element.PreferredHeight;
@@ -76,7 +100,7 @@
                     float maxBoundFlexibleHeight = 0f;
                     ComputeRangeFlexibleHeight(out minBoundFlexibleHeight, out maxBoundFlexibleHeight);
                 
-                    for(int i = 0; i < _mElements.Length; i++)
+                    for(int i = 0; i < _mElements.Count; i++)
                     {
                         MyrmidonLayoutElement element = _mElements[i];
                         float normalizedValue = (element.FlexibleHeight - minBoundFlexibleHeight) / (maxBoundFlexibleHeight - minBoundFlexibleHeight);
@@ -87,14 +111,14 @@
 
                 // Assigning Y position
                 float currentY = _mRect.y + _mPaddingTop;
-                for(int i = 0; i < _mElements.Length; i++)
+                for(int i = 0; i < _mElements.Count; i++)
                 {
                     rects[i].y = currentY;
                     currentY += rects[i].height + _mSpacing; 
                 }
 
                 // Assigning rects
-                for(int i = 0; i < _mElements.Length; i++)
+                for(int i = 0; i < _mElements.Count; i++)
                 {
                     _mElements[i].AssignRect(rects[i]);
                 }
@@ -115,7 +139,12 @@
             float heightAvailable = position.height;
             heightAvailable -= _mPaddingTop;
             heightAvailable -= _mPaddingBottom;
-            heightAvailable -= _mSpacing * (_mElements.Length - 1);
+            heightAvailable -= _mSpacing * (_mElements.Count - 1);
+
+            /*if(_mCanResizeElements)
+            {
+                heightAvailable -= RESIZER_SIZE * (_mElements.Length - 1);
+            }*/
         
             return heightAvailable;
         }
