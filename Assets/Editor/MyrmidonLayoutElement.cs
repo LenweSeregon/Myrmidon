@@ -10,6 +10,8 @@
         #region Internal Fields
         protected Rect _mRect;
         protected Color _mBackgroundColor;
+        protected bool _mIsResizableWidth;
+        protected bool _mIsResizableHeight;
 
         protected float _mPreferredWidth;
         protected float _mPreferredHeight;
@@ -20,6 +22,8 @@
 
         #region Properties
         public Rect Rect => _mRect;
+        public bool IsResizableWidth => _mIsResizableWidth;
+        public bool IsResizableHeight => _mIsResizableHeight;
         public float PreferredWidth => _mPreferredWidth;
         public float PreferredHeight => _mPreferredHeight;
         public float FlexibleWidth => _mFlexibleWidth;
@@ -31,6 +35,8 @@
 
         public MyrmidonLayoutElement()
         {
+            _mIsResizableWidth = true;
+            _mIsResizableHeight = true;
             _mPreferredWidth = -1;
             _mPreferredHeight = -1;
             _mFlexibleWidth = -1;
@@ -39,6 +45,8 @@
 
         public MyrmidonLayoutElement(float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight)
         {
+            _mIsResizableWidth = true;
+            _mIsResizableHeight = true;
             _mPreferredWidth = (preferredWidth < 0) ? (0) : (preferredWidth);
             _mPreferredHeight = (preferredHeight < 0) ? (0) : (preferredHeight);
             _mFlexibleWidth = (flexibleWidth < 0) ? (0) : (flexibleWidth);
@@ -52,8 +60,20 @@
 
         public void AssignRect(Rect rect)
         {
-            Debug.Log("ASSIGN");
             _mRect = rect;
+        }
+
+        public virtual void ProcessResizing(float deltaWidth, float deltaHeight)
+        {
+            if(_mIsResizableWidth)
+            {
+                _mRect.width += deltaWidth;
+            }
+            
+            if(_mIsResizableHeight)
+            {
+                _mRect.height += deltaHeight;
+            }
         }
 
         public virtual void ProcessEvents(Event e)

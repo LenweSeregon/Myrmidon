@@ -21,17 +21,21 @@
         #endregion
 
         #region Methods
-        public MyrmidonResizerElement(MyrmidonLayoutElement previousPanel, MyrmidonLayoutElement nextPanel, MyrmidonResizerType type):
+        public MyrmidonResizerElement(MyrmidonLayoutElement previousPanel, MyrmidonLayoutElement nextPanel, MyrmidonResizerType type, bool resizableWidth, bool resizableHeight):
             base()
         {
+            _mIsResizableWidth = resizableWidth;
+            _mIsResizableHeight = resizableHeight;
             _mPreviousPanel = previousPanel;
             _mNextPanel = nextPanel;
             _mResizerType = type;
         }
 
-        public MyrmidonResizerElement(MyrmidonLayoutElement previousPanel, MyrmidonLayoutElement nextPanel, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight, MyrmidonResizerType type):
+        public MyrmidonResizerElement(MyrmidonLayoutElement previousPanel, MyrmidonLayoutElement nextPanel, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight, MyrmidonResizerType type, bool resizableWidth, bool resizableHeight) :
             base(preferredWidth, preferredHeight, flexibleWidth, flexibleHeight)
         {
+            _mIsResizableWidth = resizableWidth;
+            _mIsResizableHeight = resizableHeight;
             _mPreviousPanel = previousPanel;
             _mNextPanel = nextPanel;
             _mResizerType = type;
@@ -108,7 +112,6 @@
         public override void Draw()
         {
             base.Draw();
-
             EditorGUIUtility.AddCursorRect(_mRect, MouseCursor.ResizeVertical);
         }
 

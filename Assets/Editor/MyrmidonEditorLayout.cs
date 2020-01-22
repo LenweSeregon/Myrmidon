@@ -62,6 +62,7 @@
         public MyrmidonEditorLayout(List<MyrmidonLayoutElement> elements, bool forceExpandWidth, bool forceExpandHeight, bool canResize):
             base()
         {
+            _mIsResizableWidth = true;
             _mElements = elements;
             _mForceChildToExpandWidth = forceExpandWidth;
             _mForceChildToExpandHeight = forceExpandHeight;
@@ -72,6 +73,7 @@
         public MyrmidonEditorLayout(List<MyrmidonLayoutElement> elements, bool forceExpandWidth, bool forceExpandHeight, bool canResize, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight):
             base(preferredWidth, preferredHeight, flexibleWidth, flexibleHeight)
         {
+            _mIsResizableWidth = true;
             _mElements = elements;
             _mForceChildToExpandWidth = forceExpandWidth;
             _mForceChildToExpandHeight = forceExpandHeight;
@@ -136,6 +138,34 @@
             return false;
         }
 
+        protected int NbResizableWidthElements()
+        {
+            int counter = 0;
+            foreach(MyrmidonLayoutElement element in _mElements)
+            {
+                if(element.IsResizableWidth)
+                {
+                    counter++;
+                }
+            }
+
+            return counter;
+        }
+
+        protected int NbResizableHeightElements()
+        {
+            int counter = 0;
+            foreach (MyrmidonLayoutElement element in _mElements)
+            {
+                if (element.IsResizableHeight)
+                {
+                    counter++;
+                }
+            }
+
+            return counter;
+        }
+
         public override void ProcessEvents(Event e)
         {
             base.ProcessEvents(e);
@@ -144,6 +174,7 @@
                 element.ProcessEvents(e);
             }
         }
+
         public override void Draw()
         {
             base.Draw();

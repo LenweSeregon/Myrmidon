@@ -38,7 +38,7 @@
                 {
                     MyrmidonLayoutElement beforePanel = (i == 0) ? (null) : (_mElements[i - 1]);
                     MyrmidonLayoutElement nextPanel = _mElements[i + 1];
-                    MyrmidonLayoutElement resizable = new MyrmidonResizerElement(beforePanel, nextPanel, 0, RESIZER_SIZE, 1, 0, MyrmidonResizerType.Vertical);
+                    MyrmidonLayoutElement resizable = new MyrmidonResizerElement(beforePanel, nextPanel, 0, RESIZER_SIZE, 1, 0, MyrmidonResizerType.Vertical, true, false);
                     resizable.AssignBackgroundColor(Color.black);
                     elementsWithResizable.Add(resizable);
                 }
@@ -143,13 +143,26 @@
             heightAvailable -= _mPaddingTop;
             heightAvailable -= _mPaddingBottom;
             heightAvailable -= _mSpacing * (_mElements.Count - 1);
-
-            /*if(_mCanResizeElements)
-            {
-                heightAvailable -= RESIZER_SIZE * (_mElements.Length - 1);
-            }*/
         
             return heightAvailable;
+        }
+
+        public override void ProcessResizing(float deltaWidth, float deltaHeight)
+        {
+            base.ProcessResizing(deltaWidth, deltaHeight);
+            int nbResizableElement = NbResizableHeightElements();
+            Debug.Log("nb resizable : " + nbResizableElement);
+            float deltaWidthPerElement = deltaWidth;
+            float deltaHeightPerElement = deltaHeight / nbResizableElement;
+            Debug.Log("Delta width : " + deltaWidthPerElement);
+            Debug.Log("Delta height : " + deltaHeightPerElement);
+            foreach (MyrmidonLayoutElement element in _mElements)
+            {
+                element.ProcessResizing(deltaWidthPerElement, deltaHeightPerElement);
+                Rect rect = element.Rect;
+                rect.y += deltaHeightPerElement;
+                element.AssignRect(rect);
+            }
         }
 
         #endregion
