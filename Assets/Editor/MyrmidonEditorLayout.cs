@@ -166,13 +166,17 @@
             return counter;
         }
 
-        public override void ProcessEvents(Event e)
+        public override bool ProcessEvents(Event e)
         {
-            base.ProcessEvents(e);
+            bool repaint = false;
+
+            repaint |= base.ProcessEvents(e);
             foreach(MyrmidonLayoutElement element in _mElements)
             {
-                element.ProcessEvents(e);
+                repaint |= element.ProcessEvents(e);
             }
+
+            return repaint;
         }
 
         public override void Draw()

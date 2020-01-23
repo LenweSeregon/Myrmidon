@@ -41,7 +41,7 @@
             _mResizerType = type;
         }
 
-        public override void ProcessEvents(Event e)
+        public override bool ProcessEvents(Event e)
         {
             base.ProcessEvents(e);
 
@@ -64,48 +64,62 @@
                 switch(_mResizerType)
                 {
                     case MyrmidonResizerType.Vertical:
-                    float saveY = _mRect.y;
-                    float mouseY = e.mousePosition.y;
-                    Debug.Log("SAVE Y : " + saveY);
-                    Debug.Log("MOUSE Y : " + mouseY);
-                    if(mouseY < saveY)
-                    {
-                        float deltaY = saveY - mouseY;
-                        Debug.Log("DELTA Y : " + deltaY);
-                        Rect newPreviousRect = _mPreviousPanel.Rect;
-                        Rect newResizableRect = _mRect;
-                        Rect newNextRect = _mNextPanel.Rect;
-                        
-                        newPreviousRect.height -= deltaY;
-                        newNextRect.y -= deltaY;
-                        newNextRect.height += deltaY;
-                        newResizableRect.y -= deltaY;
+                        float saveY = _mRect.y;
+                        float mouseY = e.mousePosition.y;
+                        //Debug.Log("SAVE Y : " + saveY);
+                        //Debug.Log("MOUSE Y : " + mouseY);
+                        if(mouseY < saveY)
+                        {
+                            if (mouseY > _mPreviousPanel.Rect.y + 5)
+                            {
+                                float deltaY = saveY - mouseY;
+                                Debug.Log("DELTA 01 Y : " + deltaY);
+                                Rect newPreviousRect = _mPreviousPanel.Rect;
+                                Rect newResizableRect = _mRect;
+                                Rect newNextRect = _mNextPanel.Rect;
 
-                        _mRect = newResizableRect;
-                        _mPreviousPanel.AssignRect(newPreviousRect);
-                        _mNextPanel.AssignRect(newNextRect);
-                        
-                    }
-                    else if(mouseY > saveY)
-                    {
-                        float deltaY = mouseY - saveY;
-                        Debug.Log("DELTA : " + deltaY);
-                        Rect newPreviousRect = _mPreviousPanel.Rect;
-                        Rect newResizableRect = _mRect;
-                        Rect newNextRect = _mNextPanel.Rect;
-                        
-                        newPreviousRect.height += deltaY;
-                        newNextRect.y -= deltaY;
-                        newNextRect.height -= deltaY;
-                        newResizableRect.y += deltaY;
+                                newPreviousRect.height -= deltaY;
+                                newNextRect.y -= deltaY;
+                                newNextRect.height += deltaY;
+                                newResizableRect.y -= deltaY;
 
-                        _mRect = newResizableRect;
-                        _mPreviousPanel.AssignRect(newPreviousRect);
-                        _mNextPanel.AssignRect(newNextRect);
-                    }
+                                _mRect = newResizableRect;
+
+                                _mPreviousPanel.AssignRect(newPreviousRect);
+                                _mNextPanel.AssignRect(newNextRect);
+                            }
+                        }
+                        else if(mouseY > saveY)
+                        {
+                            Debug.Log("MOUSE Y : " + mouseY);
+                            Debug.Log("PREV Y : " + _mPreviousPanel.Rect.y);
+                            if(mouseY < _mNextPanel.Rect.y + 5)
+                            {
+                                float deltaY = mouseY - saveY;
+                                Debug.Log("DELTA 02 Y : " + deltaY);
+                                Rect newPreviousRect = _mPreviousPanel.Rect;
+                                Rect newResizableRect = _mRect;
+                                Rect newNextRect = _mNextPanel.Rect;
+
+                                newPreviousRect.height += deltaY;
+                                newNextRect.y += deltaY;
+                                newNextRect.height -= deltaY;
+                                newResizableRect.y += deltaY;
+
+                                _mRect = newResizableRect;
+                                _mPreviousPanel.AssignRect(newPreviousRect);
+                                _mNextPanel.AssignRect(newNextRect);
+                            }
+                        }
 
                     break;
                 }
+
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 

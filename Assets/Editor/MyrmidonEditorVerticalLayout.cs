@@ -36,7 +36,7 @@
 
                 if (i < _mElements.Count - 1)
                 {
-                    MyrmidonLayoutElement beforePanel = (i == 0) ? (null) : (_mElements[i - 1]);
+                    MyrmidonLayoutElement beforePanel = _mElements[i];//(i == 0) ? (null) : (_mElements[i - 1]);
                     MyrmidonLayoutElement nextPanel = _mElements[i + 1];
                     MyrmidonLayoutElement resizable = new MyrmidonResizerElement(beforePanel, nextPanel, 0, RESIZER_SIZE, 1, 0, MyrmidonResizerType.Vertical, true, false);
                     resizable.AssignBackgroundColor(Color.black);
@@ -147,21 +147,45 @@
             return heightAvailable;
         }
 
+        private float GetHeightPercentageOverLayout(MyrmidonLayoutElement element)
+        {
+            float heightLayout = _mRect.height - (PaddingTop + PaddingBottom);
+            float heightElement = element.Rect.height;
+
+            return heightElement / heightLayout;
+        }
+
+        private float GetTotalPercentageOverLayout()
+        {
+            float heightAccumulator = 0f;
+            foreach(MyrmidonLayoutElement element in _mElements)
+            {
+                heightAccumulator += GetHeightPercentageOverLayout(element);
+            }
+
+            return heightAccumulator;
+        }
+
         public override void ProcessResizing(float deltaWidth, float deltaHeight)
         {
             base.ProcessResizing(deltaWidth, deltaHeight);
-            int nbResizableElement = NbResizableHeightElements();
-            Debug.Log("nb resizable : " + nbResizableElement);
-            float deltaWidthPerElement = deltaWidth;
-            float deltaHeightPerElement = deltaHeight / nbResizableElement;
-            Debug.Log("Delta width : " + deltaWidthPerElement);
-            Debug.Log("Delta height : " + deltaHeightPerElement);
-            foreach (MyrmidonLayoutElement element in _mElements)
+            float totalHeightPercentage = GetTotalPercentageOverLayout();
+
+            float heightToAdd = 0f;
+            for (int i = 0; i < _mElements.Count; i++)
             {
-                element.ProcessResizing(deltaWidthPerElement, deltaHeightPerElement);
+                MyrmidonLayoutElement element = _mElements[i];
+                float percentageOverLayoutNormalized = GetHeightPercentageOverLayout(element) / totalHeightPercentage;
+                float heightAttributed = (percentageOverLayoutNormalized * deltaHeight);
+
+                element.ProcessResizing(deltaWidth, heightAttributed);
+
                 Rect rect = element.Rect;
-                rect.y += deltaHeightPerElement;
+                rect.y += heightToAdd;
                 element.AssignRect(rect);
+
+                if (element.IsResizableHeight)
+                    heightToAdd += heightAttributed;
             }
         }
 

@@ -76,8 +76,10 @@
             }
         }
 
-        public virtual void ProcessEvents(Event e)
-        { }
+        public virtual bool ProcessEvents(Event e)
+        {
+            return false;
+        }
 
         public virtual void Draw()
         {

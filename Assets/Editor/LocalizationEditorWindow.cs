@@ -75,8 +75,8 @@
             if(mainLayout != null)
             {
                 mainLayout.Draw();
-                mainLayout.ProcessEvents(Event.current);
-                if(GUI.changed)
+                bool repaintEvents = mainLayout.ProcessEvents(Event.current);
+                if(repaintEvents|| GUI.changed)
                 {
                     Repaint();
                 }
