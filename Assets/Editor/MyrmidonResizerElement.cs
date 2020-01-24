@@ -13,6 +13,11 @@
 
     public class MyrmidonResizerElement : MyrmidonLayoutElement
     {
+        #region Constantes
+        public readonly static float RESIZER_SIZE = 4f;
+        #endregion
+
+
         #region Internal Fields
         private MyrmidonResizerType _mResizerType;
         private MyrmidonLayoutElement _mPreviousPanel;
@@ -70,7 +75,7 @@
                         //Debug.Log("MOUSE Y : " + mouseY);
                         if(mouseY < saveY)
                         {
-                            if (mouseY > _mPreviousPanel.Rect.y + 5)
+                            if (mouseY > _mPreviousPanel.Rect.y + RESIZER_SIZE)
                             {
                                 float deltaY = saveY - mouseY;
                                 Debug.Log("DELTA 01 Y : " + deltaY);
@@ -93,7 +98,9 @@
                         {
                             Debug.Log("MOUSE Y : " + mouseY);
                             Debug.Log("PREV Y : " + _mPreviousPanel.Rect.y);
-                            if(mouseY < _mNextPanel.Rect.y + 5)
+
+                            Debug.Log("NEXT : " + _mNextPanel.Rect.y);
+                            if(mouseY < _mNextPanel.Rect.y + _mNextPanel.Rect.height - (RESIZER_SIZE*2))
                             {
                                 float deltaY = mouseY - saveY;
                                 Debug.Log("DELTA 02 Y : " + deltaY);

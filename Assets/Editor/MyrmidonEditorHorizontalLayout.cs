@@ -35,10 +35,11 @@
 
                 if (i < _mElements.Count - 1)
                 {
+                    float resizerHeight = MyrmidonResizerElement.RESIZER_SIZE;
                     MyrmidonLayoutElement beforePanel = (i == 0) ? (null) : (_mElements[i - 1]);
                     MyrmidonLayoutElement nextPanel = _mElements[i + 1];
 
-                    MyrmidonLayoutElement resizable = new MyrmidonResizerElement(beforePanel, nextPanel, RESIZER_SIZE, 0, 0, 1, MyrmidonResizerType.Horizontal, false, true);
+                    MyrmidonLayoutElement resizable = new MyrmidonResizerElement(beforePanel, nextPanel, resizerHeight, 0, 0, 1, MyrmidonResizerType.Horizontal, false, true);
                     resizable.AssignBackgroundColor(Color.black);
                     elementsWithResizable.Add(resizable);
                 }

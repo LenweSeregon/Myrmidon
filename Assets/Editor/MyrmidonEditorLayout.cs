@@ -10,10 +10,6 @@
     /// </summary>
     public abstract class MyrmidonEditorLayout : MyrmidonLayoutElement
     {
-        #region Constantes
-        protected const float RESIZER_SIZE = 4f;
-        #endregion
-
         #region Internal Fields
         protected List<MyrmidonLayoutElement> _mElements;
         
