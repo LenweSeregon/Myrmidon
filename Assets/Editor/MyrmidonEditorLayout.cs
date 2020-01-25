@@ -63,6 +63,11 @@
             _mForceChildToExpandWidth = forceExpandWidth;
             _mForceChildToExpandHeight = forceExpandHeight;
             _mCanResizeElements = canResize;
+
+            if(_mCanResizeElements && _mElements.Count > 1)
+            {
+                AddResizableToElements();
+            }
         }
 
         
@@ -74,6 +79,11 @@
             _mForceChildToExpandWidth = forceExpandWidth;
             _mForceChildToExpandHeight = forceExpandHeight;
             _mCanResizeElements = canResize;
+
+            if(_mCanResizeElements && _mElements.Count > 1)
+            {
+                AddResizableToElements();
+            }
         }
 
         public void SetPadding(float top, float bottom, float left, float right)
@@ -87,7 +97,26 @@
         public abstract void ComputeRects();
         protected abstract float ComputeWidthAvailable(Rect position);
         protected abstract float ComputeHeightAvailable(Rect position);
+        protected abstract MyrmidonResizerElement CreateResizerForLayout(MyrmidonLayoutElement previous, MyrmidonLayoutElement next);
+        protected void AddResizableToElements()
+        {
+            List<MyrmidonLayoutElement> elementsWithResizable = new List<MyrmidonLayoutElement>();
+            for (int i = 0; i < _mElements.Count; i++)
+            {
+                elementsWithResizable.Add(_mElements[i]);
 
+                if (i < _mElements.Count - 1)
+                {
+                    MyrmidonLayoutElement previousPanel = _mElements[i];
+                    MyrmidonLayoutElement nextPanel = _mElements[i + 1];
+                    MyrmidonResizerElement resizer = CreateResizerForLayout(previousPanel, nextPanel);
+                    resizer.AssignBackgroundColor(Color.black);
+                    elementsWithResizable.Add(resizer);
+                }
+            }
+
+            _mElements = elementsWithResizable;
+        }
 
         protected void ComputeRangeFlexibleWidth(out float minWidth, out float maxWidth)
         {
@@ -109,6 +138,44 @@
             {
                 maxHeight += element.FlexibleHeight;
             }
+        }
+
+        protected float GetWidthPercentageOverLayout(MyrmidonLayoutElement element)
+        {
+            float widthLayout = _mRect.width - (PaddingLeft + PaddingRight);
+            float widthElement = element.Rect.width;
+
+            return widthElement / widthLayout;
+        }
+
+        protected float GetHeightPercentageOverLayout(MyrmidonLayoutElement element)
+        {
+            float heightLayout = _mRect.height - (PaddingTop + PaddingBottom);
+            float heightElement = element.Rect.height;
+
+            return heightElement / heightLayout;
+        }
+
+        protected float GetTotalWidthPercentageOverLayout()
+        {
+            float widthAcculumator = 0;
+            foreach(MyrmidonLayoutElement element in _mElements)
+            {
+                widthAcculumator += GetWidthPercentageOverLayout(element);
+            }
+
+            return widthAcculumator;
+        }
+
+        protected float GetTotalHeightPercentageOverLayout()
+        {
+            float heightAccumulator = 0f;
+            foreach(MyrmidonLayoutElement element in _mElements)
+            {
+                heightAccumulator += GetHeightPercentageOverLayout(element);
+            }
+
+            return heightAccumulator;
         }
 
 

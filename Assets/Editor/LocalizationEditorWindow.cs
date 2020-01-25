@@ -28,6 +28,11 @@
             window.InitializeWindow();
         }
 
+        private void OnValidate() 
+        {
+            InitializeWindow();
+        }
+
         private void Update()
         {
             float currentWidth = position.width;
@@ -56,7 +61,7 @@
             panel03.AssignBackgroundColor(Color.green);
             panel04.AssignBackgroundColor(Color.yellow);
 
-            MyrmidonEditorLayout panelLayout = new MyrmidonEditorVerticalLayout(new List<MyrmidonLayoutElement> { panel01, panel02, panel03, panel04 }, false, false, true);
+            MyrmidonEditorLayout panelLayout = new MyrmidonEditorHorizontalLayout(new List<MyrmidonLayoutElement> { panel01, panel02, panel03, panel04 }, false, false, true);
             panelLayout.AssignRect(new Rect(0, 0, position.width, position.height));
             panelLayout.SetPadding(30, 30, 30, 30);
             panelLayout.AssignBackgroundColor(Color.cyan);
@@ -67,7 +72,10 @@
 
         private void Resizing(float deltaWidth, float deltaHeight)
         {
-            mainLayout.ProcessResizing(deltaWidth, deltaHeight);
+            if(mainLayout != null)
+            {
+                mainLayout.ProcessResizing(deltaWidth, deltaHeight);
+            }
         }
         
         private void OnGUI() 

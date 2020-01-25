@@ -37,10 +37,10 @@
         {
             _mIsResizableWidth = true;
             _mIsResizableHeight = true;
-            _mPreferredWidth = -1;
-            _mPreferredHeight = -1;
-            _mFlexibleWidth = -1;
-            _mFlexibleHeight = -1;
+            _mPreferredWidth = 0;
+            _mPreferredHeight = 0;
+            _mFlexibleWidth = 0;
+            _mFlexibleHeight = 0;
         }
 
         public MyrmidonLayoutElement(float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight)

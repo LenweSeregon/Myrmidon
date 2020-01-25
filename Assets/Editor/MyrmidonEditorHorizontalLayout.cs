@@ -11,41 +11,20 @@
         public MyrmidonEditorHorizontalLayout(List<MyrmidonLayoutElement> elements, bool forceExpandWidth, bool forceExpandHeight, bool canResize):
             base(elements, forceExpandWidth, forceExpandHeight, canResize)
         {
-            if (_mCanResizeElements && _mElements.Count > 1)
-            {
-                AddResizableToElements();
-            }
+            
         }
 
         public MyrmidonEditorHorizontalLayout(List<MyrmidonLayoutElement> elements, bool forceExpandWidth, bool forceExpandHeight, bool canResize, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight):
             base(elements, forceExpandWidth, forceExpandHeight, canResize, preferredWidth, preferredHeight, flexibleWidth, flexibleHeight)
         {
-            if (_mCanResizeElements && _mElements.Count > 1)
-            {
-                AddResizableToElements();
-            }
+            
         }
 
-        private void AddResizableToElements()
+        protected override MyrmidonResizerElement CreateResizerForLayout(MyrmidonLayoutElement previous, MyrmidonLayoutElement next)
         {
-            List<MyrmidonLayoutElement> elementsWithResizable = new List<MyrmidonLayoutElement>();
-            for (int i = 0; i < _mElements.Count; i++)
-            {
-                elementsWithResizable.Add(_mElements[i]);
-
-                if (i < _mElements.Count - 1)
-                {
-                    float resizerHeight = MyrmidonResizerElement.RESIZER_SIZE;
-                    MyrmidonLayoutElement beforePanel = (i == 0) ? (null) : (_mElements[i - 1]);
-                    MyrmidonLayoutElement nextPanel = _mElements[i + 1];
-
-                    MyrmidonLayoutElement resizable = new MyrmidonResizerElement(beforePanel, nextPanel, resizerHeight, 0, 0, 1, MyrmidonResizerType.Horizontal, false, true);
-                    resizable.AssignBackgroundColor(Color.black);
-                    elementsWithResizable.Add(resizable);
-                }
-            }
-
-            _mElements = elementsWithResizable;
+            float resizerWidth = MyrmidonResizerElement.RESIZER_SIZE;
+            MyrmidonResizerElement resizer = new MyrmidonResizerElement(previous, next, resizerWidth, 0, 0, 1, MyrmidonResizerType.Horizontal, false, true);
+            return resizer;
         }
 
         public override void ComputeRects()
@@ -99,9 +78,7 @@
                     {
                         MyrmidonLayoutElement element = _mElements[i];
                         float normalizedValue = (element.FlexibleWidth - minBoundFlexibleWidth) / (maxBoundFlexibleWidth - minBoundFlexibleWidth);
-                        Debug.Log("Normalized value for " + i + " : " +  normalizedValue);
                         float additionalWidth = remainingWidth * normalizedValue;
-                        Debug.Log("Additional width for " + i + " : " +  additionalWidth);
                         rects[i].width += additionalWidth;
                     }
                 }
@@ -144,14 +121,23 @@
         public override void ProcessResizing(float deltaWidth, float deltaHeight)
         {
             base.ProcessResizing(deltaWidth, deltaHeight);
-            int nbResizableElement = NbResizableWidthElements();
-            float deltaWidthPerElement = deltaWidth / nbResizableElement;
-            float deltaHeightPerElement = deltaHeight;
-            Debug.Log("Delta width : " + deltaWidthPerElement);
-            Debug.Log("Delta height : " + deltaHeightPerElement);
-            foreach (MyrmidonLayoutElement element in _mElements)
+            float totalWidthPercentage = GetTotalWidthPercentageOverLayout();
+
+            float widthToAdd = 0f;
+            for (int i = 0; i < _mElements.Count; i++)
             {
-                element.ProcessResizing(deltaWidthPerElement, deltaHeightPerElement);
+                MyrmidonLayoutElement element = _mElements[i];
+                float percentageOverLayoutNormalized = GetWidthPercentageOverLayout(element) / totalWidthPercentage;
+                float widthAttributed = (percentageOverLayoutNormalized * deltaWidth);
+
+                element.ProcessResizing(widthAttributed, deltaHeight);
+
+                Rect rect = element.Rect;
+                rect.x += widthToAdd;
+                element.AssignRect(rect);
+
+                if (element.IsResizableWidth)
+                    widthToAdd += widthAttributed;
             }
         }
 

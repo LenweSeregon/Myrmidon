@@ -11,41 +11,20 @@
         public MyrmidonEditorVerticalLayout(List<MyrmidonLayoutElement> elements, bool forceExpandWidth, bool forceExpandHeight, bool canResize) :
             base(elements, forceExpandWidth, forceExpandHeight, canResize)
         {
-            if(_mCanResizeElements && _mElements.Count > 1)
-            {
-                AddResizableToElements();
-            }
+            
         }
 
         public MyrmidonEditorVerticalLayout(List<MyrmidonLayoutElement> elements, bool forceExpandWidth, bool forceExpandHeight, bool canResize, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight):
             base(elements, forceExpandWidth, forceExpandHeight, canResize, preferredWidth, preferredHeight, flexibleWidth, flexibleHeight)
         {
-            if(_mCanResizeElements && _mElements.Count > 1)
-            {
-                AddResizableToElements();
-            }
+
         }
 
-        private void AddResizableToElements()
+        protected override MyrmidonResizerElement CreateResizerForLayout(MyrmidonLayoutElement previous, MyrmidonLayoutElement next)
         {
-            List<MyrmidonLayoutElement> elementsWithResizable = new List<MyrmidonLayoutElement>();
-            
-            for (int i = 0; i < _mElements.Count; i++)
-            {
-                elementsWithResizable.Add(_mElements[i]);
-
-                if (i < _mElements.Count - 1)
-                {
-                    float resizerWidth = MyrmidonResizerElement.RESIZER_SIZE;
-                    MyrmidonLayoutElement beforePanel = _mElements[i];//(i == 0) ? (null) : (_mElements[i - 1]);
-                    MyrmidonLayoutElement nextPanel = _mElements[i + 1];
-                    MyrmidonLayoutElement resizable = new MyrmidonResizerElement(beforePanel, nextPanel, 0, resizerWidth, 1, 0, MyrmidonResizerType.Vertical, true, false);
-                    resizable.AssignBackgroundColor(Color.black);
-                    elementsWithResizable.Add(resizable);
-                }
-            }
-
-            _mElements = elementsWithResizable;
+            float resizerWidth = MyrmidonResizerElement.RESIZER_SIZE;
+            MyrmidonResizerElement resizer = new MyrmidonResizerElement(previous, next, 0, resizerWidth, 1, 0, MyrmidonResizerType.Vertical, true, false);
+            return resizer;
         }
 
         /// <summary>
@@ -148,29 +127,10 @@
             return heightAvailable;
         }
 
-        private float GetHeightPercentageOverLayout(MyrmidonLayoutElement element)
-        {
-            float heightLayout = _mRect.height - (PaddingTop + PaddingBottom);
-            float heightElement = element.Rect.height;
-
-            return heightElement / heightLayout;
-        }
-
-        private float GetTotalPercentageOverLayout()
-        {
-            float heightAccumulator = 0f;
-            foreach(MyrmidonLayoutElement element in _mElements)
-            {
-                heightAccumulator += GetHeightPercentageOverLayout(element);
-            }
-
-            return heightAccumulator;
-        }
-
         public override void ProcessResizing(float deltaWidth, float deltaHeight)
         {
             base.ProcessResizing(deltaWidth, deltaHeight);
-            float totalHeightPercentage = GetTotalPercentageOverLayout();
+            float totalHeightPercentage = GetTotalHeightPercentageOverLayout();
 
             float heightToAdd = 0f;
             for (int i = 0; i < _mElements.Count; i++)

@@ -66,62 +66,7 @@
 
             if(_mIsResizing)
             {
-                switch(_mResizerType)
-                {
-                    case MyrmidonResizerType.Vertical:
-                        float saveY = _mRect.y;
-                        float mouseY = e.mousePosition.y;
-                        //Debug.Log("SAVE Y : " + saveY);
-                        //Debug.Log("MOUSE Y : " + mouseY);
-                        if(mouseY < saveY)
-                        {
-                            if (mouseY > _mPreviousPanel.Rect.y + RESIZER_SIZE)
-                            {
-                                float deltaY = saveY - mouseY;
-                                Debug.Log("DELTA 01 Y : " + deltaY);
-                                Rect newPreviousRect = _mPreviousPanel.Rect;
-                                Rect newResizableRect = _mRect;
-                                Rect newNextRect = _mNextPanel.Rect;
-
-                                newPreviousRect.height -= deltaY;
-                                newNextRect.y -= deltaY;
-                                newNextRect.height += deltaY;
-                                newResizableRect.y -= deltaY;
-
-                                _mRect = newResizableRect;
-
-                                _mPreviousPanel.AssignRect(newPreviousRect);
-                                _mNextPanel.AssignRect(newNextRect);
-                            }
-                        }
-                        else if(mouseY > saveY)
-                        {
-                            Debug.Log("MOUSE Y : " + mouseY);
-                            Debug.Log("PREV Y : " + _mPreviousPanel.Rect.y);
-
-                            Debug.Log("NEXT : " + _mNextPanel.Rect.y);
-                            if(mouseY < _mNextPanel.Rect.y + _mNextPanel.Rect.height - (RESIZER_SIZE*2))
-                            {
-                                float deltaY = mouseY - saveY;
-                                Debug.Log("DELTA 02 Y : " + deltaY);
-                                Rect newPreviousRect = _mPreviousPanel.Rect;
-                                Rect newResizableRect = _mRect;
-                                Rect newNextRect = _mNextPanel.Rect;
-
-                                newPreviousRect.height += deltaY;
-                                newNextRect.y += deltaY;
-                                newNextRect.height -= deltaY;
-                                newResizableRect.y += deltaY;
-
-                                _mRect = newResizableRect;
-                                _mPreviousPanel.AssignRect(newPreviousRect);
-                                _mNextPanel.AssignRect(newNextRect);
-                            }
-                        }
-
-                    break;
-                }
-
+                ProcessResizeEvent(e);
                 return true;
             }
             else
@@ -130,10 +75,82 @@
             }
         }
 
+        private void ProcessResizeEvent(Event e)
+        {
+            Rect newPreviousRect = _mPreviousPanel.Rect;
+            Rect newResizableRect = _mRect;
+            Rect newNextRect = _mNextPanel.Rect;
+            float currentX = _mRect.x;
+            float currentY = _mRect.y;
+            float mouseX = e.mousePosition.x;
+            float mouseY = e.mousePosition.y;
+
+            switch(_mResizerType)
+            {
+                case MyrmidonResizerType.Vertical:
+
+                    if(mouseY < currentY && mouseY > _mPreviousPanel.Rect.y + RESIZER_SIZE)
+                    {
+                        float deltaY = currentY - mouseY;
+
+                        newPreviousRect.height -= deltaY;
+                        newNextRect.y -= deltaY;
+                        newNextRect.height += deltaY;
+                        newResizableRect.y -= deltaY;
+                    }
+                    else if(mouseY > currentY && mouseY < _mNextPanel.Rect.y + _mNextPanel.Rect.height - (RESIZER_SIZE*2))
+                    {
+                        float deltaY = mouseY - currentY;
+
+                        newPreviousRect.height += deltaY;
+                        newNextRect.y += deltaY;
+                        newNextRect.height -= deltaY;
+                        newResizableRect.y += deltaY;
+                    }
+
+                    break;
+
+                case MyrmidonResizerType.Horizontal:
+                    if(mouseX < currentX && mouseX > _mPreviousPanel.Rect.x + RESIZER_SIZE)
+                    {
+                        float deltaX = currentX - mouseX;
+
+                        newPreviousRect.width -= deltaX;
+                        newNextRect.x -= deltaX;
+                        newNextRect.width += deltaX;
+                        newResizableRect.x -= deltaX;
+                    }
+                    else if(mouseX > currentX && mouseX < _mNextPanel.Rect.x + _mNextPanel.Rect.width - (RESIZER_SIZE*2))
+                    {
+                        float deltaX = mouseX - currentX;
+
+                        newPreviousRect.width += deltaX;
+                        newNextRect.x += deltaX;
+                        newNextRect.width -= deltaX;
+                        newResizableRect.x += deltaX;
+                    }
+                    break;
+            }
+
+            _mRect = newResizableRect;
+            _mPreviousPanel.AssignRect(newPreviousRect);
+            _mNextPanel.AssignRect(newNextRect);
+        }
+
         public override void Draw()
         {
             base.Draw();
-            EditorGUIUtility.AddCursorRect(_mRect, MouseCursor.ResizeVertical);
+
+            switch(_mResizerType)
+            {
+                case MyrmidonResizerType.Horizontal:
+                    EditorGUIUtility.AddCursorRect(_mRect, MouseCursor.ResizeHorizontal);
+                    break;
+                case MyrmidonResizerType.Vertical:
+                    EditorGUIUtility.AddCursorRect(_mRect, MouseCursor.ResizeVertical);
+                    break;
+            }
+
         }
 
         #endregion
