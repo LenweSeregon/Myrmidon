@@ -8,19 +8,63 @@
     /// - _mForceChildToExpandWidth : Cet attribut permet de déterminer si le layout doit forcer les enfants à occuper toute la largeur disponible du layout
     /// - _mForceChildToExpandHeight : Cet attribut permet de déterminer si le layout doit forcer les enfants à occuper toute la hauteur disponible du layout 
     /// </summary>
+    /// 
+    
+    /// <summary>
+    /// MyrmidonEditorLayout is the base class for layout system in Myrmidon.
+    /// It basically defines all needed functionnality for the layout.
+    /// This class is abstract and need to be overrided. In Myrmidon, there is
+    ///     2 classes overriding : Vertical and Horizontal, feel free to create new layout
+    /// </summary>
     public abstract class MyrmidonEditorLayout : MyrmidonLayoutElement
     {
         #region Internal Fields
+        
+        /// <summary>
+        /// List of all MyrmidonLayoutElement contains in the layout
+        /// @see Myrmidon.Editor.MyrmidonLayoutElement
+        /// </summary>
         protected List<MyrmidonLayoutElement> _mElements;
         
+        /// <summary>
+        /// Float representing the padding wanted on top of the layout
+        /// </summary>
         protected float _mPaddingTop;
+        
+        /// <summary>
+        /// Float representing the padding wanted on bottom of the layout
+        /// </summary>
         protected float _mPaddingBottom;
+        
+        /// <summary>
+        /// Float representing the padding wanted on left of the layout
+        /// </summary>
         protected float _mPaddingLeft;
+
+        /// <summary>
+        /// Float representing the padding wanted on right of the layout
+        /// </summary>
         protected float _mPaddingRight;
 
+        /// <summary>
+        /// Float representing the spacing wanted between each element of the layout
+        /// </summary>
         protected float _mSpacing;
+
+        /// <summary>
+        /// Boolean to indicate if we want the layout to force child to expand on the maximum width available
+        /// If this boolean is set to false, and element in layout doesn't have 
+        /// </summary>
         protected bool _mForceChildToExpandWidth;
+
+        /// <summary>
+        /// 
+        /// </summary>
         protected bool _mForceChildToExpandHeight;
+
+        /// <summary>
+        /// 
+        /// </summary>
         protected bool _mCanResizeElements;
 
         #endregion

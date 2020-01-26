@@ -9,13 +9,14 @@
     {
         #region Constantes
         private const string WINDOW_NAME = "Localization";
-        private bool init = false;
-        private MyrmidonEditorLayout mainLayout;
+
         #endregion
 
         #region Internals Fields
+        private MyrmidonEditorLayout mainLayout;
         private float m_lastWidthRegistered;
         private float m_lastHeightRegistered;
+        
         #endregion
 
         [MenuItem("Window/Myrmidon/Localization")]
