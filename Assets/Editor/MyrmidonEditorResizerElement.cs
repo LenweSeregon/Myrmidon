@@ -11,7 +11,7 @@
         Horizontal
     }
 
-    public class MyrmidonResizerElement : MyrmidonLayoutElement
+    public class MyrmidonEditorResizerElement : MyrmidonEditorLayoutElement
     {
         #region Constantes
         public readonly static float RESIZER_SIZE = 4f;
@@ -20,13 +20,13 @@
 
         #region Internal Fields
         private MyrmidonResizerType _mResizerType;
-        private MyrmidonLayoutElement _mPreviousPanel;
-        private MyrmidonLayoutElement _mNextPanel;
+        private MyrmidonEditorLayoutElement _mPreviousPanel;
+        private MyrmidonEditorLayoutElement _mNextPanel;
         private bool _mIsResizing;
         #endregion
 
         #region Methods
-        public MyrmidonResizerElement(MyrmidonLayoutElement previousPanel, MyrmidonLayoutElement nextPanel, MyrmidonResizerType type, bool resizableWidth, bool resizableHeight):
+        public MyrmidonEditorResizerElement(MyrmidonEditorLayoutElement previousPanel, MyrmidonEditorLayoutElement nextPanel, MyrmidonResizerType type, bool resizableWidth, bool resizableHeight):
             base()
         {
             _mIsResizableWidth = resizableWidth;
@@ -36,7 +36,7 @@
             _mResizerType = type;
         }
 
-        public MyrmidonResizerElement(MyrmidonLayoutElement previousPanel, MyrmidonLayoutElement nextPanel, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight, MyrmidonResizerType type, bool resizableWidth, bool resizableHeight) :
+        public MyrmidonEditorResizerElement(MyrmidonEditorLayoutElement previousPanel, MyrmidonEditorLayoutElement nextPanel, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight, MyrmidonResizerType type, bool resizableWidth, bool resizableHeight) :
             base(preferredWidth, preferredHeight, flexibleWidth, flexibleHeight)
         {
             _mIsResizableWidth = resizableWidth;

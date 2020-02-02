@@ -8,22 +8,22 @@
     {
         #region Methods
         
-        public MyrmidonEditorHorizontalLayout(List<MyrmidonLayoutElement> elements, bool forceExpandWidth, bool forceExpandHeight, bool canResize):
+        public MyrmidonEditorHorizontalLayout(List<MyrmidonEditorLayoutElement> elements, bool forceExpandWidth, bool forceExpandHeight, bool canResize):
             base(elements, forceExpandWidth, forceExpandHeight, canResize)
         {
             
         }
 
-        public MyrmidonEditorHorizontalLayout(List<MyrmidonLayoutElement> elements, bool forceExpandWidth, bool forceExpandHeight, bool canResize, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight):
+        public MyrmidonEditorHorizontalLayout(List<MyrmidonEditorLayoutElement> elements, bool forceExpandWidth, bool forceExpandHeight, bool canResize, float preferredWidth, float preferredHeight, float flexibleWidth, float flexibleHeight):
             base(elements, forceExpandWidth, forceExpandHeight, canResize, preferredWidth, preferredHeight, flexibleWidth, flexibleHeight)
         {
             
         }
 
-        protected override MyrmidonResizerElement CreateResizerForLayout(MyrmidonLayoutElement previous, MyrmidonLayoutElement next)
+        protected override MyrmidonEditorResizerElement CreateResizerForLayout(MyrmidonEditorLayoutElement previous, MyrmidonEditorLayoutElement next)
         {
-            float resizerWidth = MyrmidonResizerElement.RESIZER_SIZE;
-            MyrmidonResizerElement resizer = new MyrmidonResizerElement(previous, next, resizerWidth, 0, 0, 1, MyrmidonResizerType.Horizontal, false, true);
+            float resizerWidth = MyrmidonEditorResizerElement.RESIZER_SIZE;
+            MyrmidonEditorResizerElement resizer = new MyrmidonEditorResizerElement(previous, next, resizerWidth, 0, 0, 1, MyrmidonResizerType.Horizontal, false, true);
             return resizer;
         }
 
@@ -40,7 +40,7 @@
                 // Assigning height and Y position
                 for(int i = 0; i < _mElements.Count; i++)
                 {
-                    MyrmidonLayoutElement element = _mElements[i];
+                    MyrmidonEditorLayoutElement element = _mElements[i];
                     rects[i].height = 0f;
                     rects[i].y = _mRect.y + _mPaddingTop;
 
@@ -61,13 +61,13 @@
                 // Assigning width preferred size
                 for(int i = 0; i < _mElements.Count; i++)
                 {
-                    MyrmidonLayoutElement element = _mElements[i];
+                    MyrmidonEditorLayoutElement element = _mElements[i];
                     rects[i].width = element.PreferredWidth;
 
                     remainingWidth -= rects[i].width;
                 }
 
-                // Assigning height flexible size
+                // Assigning width flexible size
                 if(_mForceChildToExpandWidth || AtLeast1FlexibleWidth())
                 {
                     float minBoundFlexibleWidth = 0f;
@@ -76,7 +76,7 @@
                 
                     for(int i = 0; i < _mElements.Count; i++)
                     {
-                        MyrmidonLayoutElement element = _mElements[i];
+                        MyrmidonEditorLayoutElement element = _mElements[i];
                         float normalizedValue = (element.FlexibleWidth - minBoundFlexibleWidth) / (maxBoundFlexibleWidth - minBoundFlexibleWidth);
                         float additionalWidth = remainingWidth * normalizedValue;
                         rects[i].width += additionalWidth;
@@ -126,7 +126,7 @@
             float widthToAdd = 0f;
             for (int i = 0; i < _mElements.Count; i++)
             {
-                MyrmidonLayoutElement element = _mElements[i];
+                MyrmidonEditorLayoutElement element = _mElements[i];
                 float percentageOverLayoutNormalized = GetWidthPercentageOverLayout(element) / totalWidthPercentage;
                 float widthAttributed = (percentageOverLayoutNormalized * deltaWidth);
 
