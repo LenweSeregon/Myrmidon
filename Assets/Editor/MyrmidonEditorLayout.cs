@@ -443,7 +443,11 @@
         }
 
         /// <summary>
+        /// AddResizableToElements is a method called internally in constructors when our layout has his attribut _mCanResizeElements
+        /// set to true. It will simply add a resizer element between each layout's element to be able to resize each panel independantly.
         /// 
+        /// It use internally the CreateResizerForLayout which is inheritant dependant.
+        /// @see MyrmidonEditorLayout.CreateResizerForLayout(MyrmidonEditorLayoutElement, MyrmidonEditorLayoutElement)
         /// </summary>
         protected void AddResizableToElements()
         {
@@ -470,17 +474,21 @@
         #region Abstract / Virtuals / Overrides
 
         /// <summary>
-        /// 
+        /// ComputeWidthAvailable is an abstract method that need to be override by inheritant classes. This method is
+        /// intented to simply compute the available width in the layout to be use later on when we compute the rects for
+        /// layout's elements. It will either simply substract padding or padding + spacing between elements.
         /// </summary>
-        /// <param name="position"></param>
-        /// <returns></returns>
+        /// <param name="position">The rect from which we'll compute the available width</param>
+        /// <returns>float that represent the available width for layout's element computation</returns>
         protected abstract float ComputeWidthAvailable(Rect position);
 
         /// <summary>
-        /// 
+        /// ComputeHeightAvailable is an abstract method that need to be override by inheritant classes. This method is
+        /// intented to simply compute the available height in the layout to be use later on when we compute the rects for
+        /// layout's elements. It will either simply substract padding or padding + spacing between elements.
         /// </summary>
-        /// <param name="position"></param>
-        /// <returns></returns>
+        /// <param name="position">The rect from which we'll compute the available height</param>
+        /// <returns>float that represent the available height for layout's element computation</returns>
         protected abstract float ComputeHeightAvailable(Rect position);
 
         /// <summary>
@@ -491,8 +499,8 @@
         /// We'll also give as arguments the previous and next elements (ie : which are surrounding the resizer), because
         /// the resizer will need thoses references when resizing events in handle.
         /// </summary>
-        /// <param name="previous"></param>
-        /// <param name="next"></param>
+        /// <param name="previous">MyrmidonLayoutElement represent the layout element above the resizer</param>
+        /// <param name="next">MyrmidonLayoutElement represent the layout element behind the resizer</param>
         /// <returns></returns>
         protected abstract MyrmidonEditorResizerElement CreateResizerForLayout(MyrmidonEditorLayoutElement previous, MyrmidonEditorLayoutElement next);
         

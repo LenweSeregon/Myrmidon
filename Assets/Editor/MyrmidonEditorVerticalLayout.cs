@@ -4,6 +4,11 @@
     using System.Collections.Generic;
     using UnityEngine;
 
+    /// <summary>
+    /// MyrmidonEditorVerticalLayout is an inheritant class from MyrmidonEditorLayout
+    /// It handle vertical layout, meaning element that are placed sequentially behind each others
+    /// @see MyrmidonEditorLayout
+    /// </summary>
     public class MyrmidonEditorVerticalLayout : MyrmidonEditorLayout
     {
         #region Methods
@@ -26,16 +31,6 @@
             MyrmidonEditorResizerElement resizer = new MyrmidonEditorResizerElement(previous, next, 0, resizerWidth, 1, 0, MyrmidonResizerType.Vertical, true, false);
             return resizer;
         }
-
-        /// <summary>
-        /// La manière de fonctionner est la suivante :
-        ///     - On assigne tout d'abord toutes les preferred size qui sont des valeurs en pixels 
-        ///     - Si on le layout force l'occupation du panel où qu'au moins 1 element est en 'FlexibleSize', on assigne ensuite les flexible size qui sont des valeurs relatives 
-        ///         par rapport à la taille qui reste après les preferred size enlevés . On va donc pour cela récupérer les valeurs de bornes inférieurs et supérieur et normaliser 
-        ///         les valeurs pour connaître l'espace qu'ils vont occuper en plus
-        /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
         public override void ComputeRects()
         {
             if(_mRect != null)
@@ -108,6 +103,11 @@
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
         protected override float ComputeWidthAvailable(Rect position)
         {
             float widthAvailable = position.width;
@@ -117,6 +117,11 @@
             return widthAvailable;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
         protected override float ComputeHeightAvailable(Rect position)
         {
             float heightAvailable = position.height;
@@ -127,6 +132,11 @@
             return heightAvailable;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="deltaWidth"></param>
+        /// <param name="deltaHeight"></param>
         public override void ProcessResizing(float deltaWidth, float deltaHeight)
         {
             base.ProcessResizing(deltaWidth, deltaHeight);

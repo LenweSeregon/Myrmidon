@@ -1,5 +1,6 @@
 ﻿namespace Myrmidon.Editor
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
@@ -14,6 +15,13 @@
         #region Fields
 
         #region Internal Fields
+
+        /// <summary>
+        /// Callback representing the function holding editor code that we want to draw in our element
+        /// @see Action<> in C#'s documentation
+        /// @see Rect in Unity's documentation
+        /// </summary>
+        protected Action<Rect> _mDrawAction;
 
         /// <summary>
         /// Rect used for rendering et computing position in layout system
@@ -190,6 +198,7 @@
             {
                 EditorGUI.DrawRect(_mRect, _mBackgroundColor);
                 GUILayout.BeginArea(_mRect);
+                _mDrawAction?.Invoke(_mRect);
                 GUILayout.EndArea();
             }
         }
@@ -202,6 +211,16 @@
         public void AssignRect(Rect rect)
         {
             _mRect = rect;
+        }
+
+        /// <summary>
+        /// AssignDrawAction can we called when we want to assign a new draw action to our element. It will basically be called
+        /// when we create the layout element.
+        /// </summary>
+        /// <param name="action">the action that will be assigned</param>
+        public void AssignDrawAction(Action<Rect> action)
+        {
+            _mDrawAction = action;
         }
 
         public void AssignBackgroundColor(Color color)
