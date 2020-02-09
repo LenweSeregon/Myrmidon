@@ -333,13 +333,15 @@
         /// and simply add results.
         /// @see MyrmidonEditorLayout.GetHeightPercentageOverLayout(MyrmidonEditorLayoutElement)
         /// </summary>
+        /// <param name="includeNotResizable">Should the method compute not resizable elements in width</param>
         /// <returns>float representing the total width occupied by elements in the layout, normalized value [0,1] </returns>
-        protected float GetTotalWidthPercentageOverLayout()
+        protected float GetTotalWidthPercentageOverLayout(bool includeNotResizable = false)
         {
             float widthAcculumator = 0;
             foreach (MyrmidonEditorLayoutElement element in _mElements)
             {
-                widthAcculumator += GetWidthPercentageOverLayout(element);
+                if(includeNotResizable || element.IsResizableWidth == true)
+                    widthAcculumator += GetWidthPercentageOverLayout(element);
             }
 
             return widthAcculumator;
@@ -352,13 +354,15 @@
         /// 
         /// @see MyrmidonEditorLayout.GetHeightPercentageOverLayout(MyrmidonEditorLayoutElement)
         /// </summary>
+        /// <param name="includeNotResizable">Should the method compute not resizable elements in height</param>
         /// <returns>float representing the total height occupied by elements in the layout, normalized value [0,1] </returns>
-        protected float GetTotalHeightPercentageOverLayout()
+        protected float GetTotalHeightPercentageOverLayout(bool includeNotResizable = false)
         {
             float heightAccumulator = 0f;
             foreach (MyrmidonEditorLayoutElement element in _mElements)
             {
-                heightAccumulator += GetHeightPercentageOverLayout(element);
+                if(includeNotResizable || element.IsResizableHeight == true)
+                    heightAccumulator += GetHeightPercentageOverLayout(element);
             }
 
             return heightAccumulator;

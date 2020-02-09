@@ -204,23 +204,35 @@
         }
 
         /// <summary>
-        /// AssignRect can we called when we want to assign a new rect to our element. For example when the window's size
+        /// SetRect can we called when we want to assign a new rect to our element. For example when the window's size
         /// change or we are resizing panel in the layout.
         /// </summary>
         /// <param name="rect">rect that will be assigned</param>
-        public void AssignRect(Rect rect)
+        public void SetRect(Rect rect)
         {
             _mRect = rect;
         }
 
         /// <summary>
-        /// AssignDrawAction can we called when we want to assign a new draw action to our element. It will basically be called
+        /// SetDrawAction can be called when we want to assign a new draw action to our element. It will basically be called
         /// when we create the layout element.
         /// </summary>
         /// <param name="action">the action that will be assigned</param>
-        public void AssignDrawAction(Action<Rect> action)
+        public void SetDrawAction(Action<Rect> action)
         {
             _mDrawAction = action;
+        }
+
+        /// <summary>
+        /// SetResizables can be called if we want to modify the behaviour when a resizing event is triggered. It will
+        /// assign new values for resziableWidth and resizableHeight
+        /// </summary>
+        /// <param name="resizableWidth">bool representing is the element resizable on width</param>
+        /// <param name="resizableHeight">bool representing is the element resizable on height</param>
+        public void SetResizables(bool resizableWidth, bool resizableHeight)
+        {
+            _mIsResizableWidth = resizableWidth;
+            _mIsResizableHeight = resizableHeight;
         }
 
         public void AssignBackgroundColor(Color color)

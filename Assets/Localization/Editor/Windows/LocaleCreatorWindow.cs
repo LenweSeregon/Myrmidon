@@ -6,122 +6,263 @@
     using UnityEditor;
     using Myrmidon.Editor;
 
-
-    public class LocaleCreatorWindow : EditorWindow
+    public class LocaleCreatorWindow : MyrmidonEditorWindow
     {
+        //==========================================
+        // Constantes
+        //==========================================
+        #region Constantes
+        
         private const string WINDOW_NAME = "Locale Creator";
-
-        private MyrmidonEditorLayout mainLayout;
-        private float m_lastWidthRegistered;
-        private float m_lastHeightRegistered;
-
+        
+        #endregion
+		
+        //==========================================
+        // Fields
+        //==========================================
+        #region Fields
+		
+        #region Serialized Fields
+        #endregion
+		
+        #region Internal Fields
+        
+        private Vector2 _mScrollviewPosition;
+        private LocaleCreatorInformations _mInformations;
+        
+        #endregion
+		
+        #endregion
+		
+        //==========================================
+        // Methods
+        //==========================================
+        #region Methods
+		
+        #region Constructors / Lifecycle
+        
         [MenuItem("Window/Myrmidon/Localization/Locale Creator")]
         private static void OpenLocaleCreatorWindow()
         {
-            LocaleCreatorWindow window = GetWindow<LocaleCreatorWindow>();
-            window.titleContent = new GUIContent(WINDOW_NAME);
-            window.m_lastWidthRegistered = window.position.width;
-            window.m_lastHeightRegistered = window.position.height;
-            window.InitializeWindow();
+	        MyrmidonEditorWindow window = GetWindow<LocaleCreatorWindow>();
+	        window.titleContent = new GUIContent(WINDOW_NAME);
+	        window.InitializeWindow();
         }
+        
+        #endregion
+		
+        #region Publics
+		
+        #region Commons
+        #endregion
+        #region Getters / Setters
+        #endregion
+        #region Abstracts / Virtuals / Overrides
 
-        private void OnValidate()
+        public override void InitializeWindow()
         {
-            InitializeWindow();
+	        base.InitializeWindow();
+
+	        _mScrollviewPosition = new Vector2(0, 0);
+	        _mInformations = new LocaleCreatorInformations();
+	        
+	        float standardHeight = EditorGUIUtility.singleLineHeight;
+
+	        MyrmidonEditorLayoutElement searchBar = new MyrmidonEditorLayoutElement(0, standardHeight, 1, 0);
+	        searchBar.SetDrawAction(SearchBar);
+	        searchBar.SetResizables(true, false);
+	        
+	        MyrmidonEditorLayoutElement scroll = new MyrmidonEditorLayoutElement(0,0,1,1);
+	        scroll.SetDrawAction(Scroll);
+
+	        MyrmidonEditorLayoutElement buttonsBar = new MyrmidonEditorLayoutElement(0, standardHeight, 1, 0);
+	        buttonsBar.SetDrawAction(Buttons);
+	        buttonsBar.SetResizables(true, false);
+	        
+	        MyrmidonEditorLayoutElement empty = new MyrmidonEditorLayoutElement(0, standardHeight, 1, 0);
+	        empty.SetResizables(true, false);
+	        
+	        MyrmidonEditorLayoutElement createButton = new MyrmidonEditorLayoutElement(0, standardHeight, 1, 0);
+	        createButton.SetDrawAction(ButtonCreate);
+	        createButton.SetResizables(true, false);
+	        
+	        //searchBar.AssignBackgroundColor(Color.red);
+	        
+	        MyrmidonEditorLayout layout = new MyrmidonEditorVerticalLayout(new List<MyrmidonEditorLayoutElement> { searchBar, scroll, buttonsBar, empty, createButton }, true, true, false);
+	        layout.SetRect(new Rect(0, 0, position.width, position.height));
+	        layout.Spacing = 5f;
+	        layout.SetPadding(10, 10, 10, 10);
+	        layout.ComputeRects();
+	        _mWindowContainer = layout;
         }
-
-        private void Update()
-        {
-            float currentWidth = position.width;
-            float currentHeight = position.height;
-
-            if (currentWidth != m_lastWidthRegistered || currentHeight != m_lastHeightRegistered)
-            {
-                float deltaWidth = currentWidth - m_lastWidthRegistered;
-                float deltaHeight = currentHeight - m_lastHeightRegistered;
-                m_lastWidthRegistered = currentWidth;
-                m_lastHeightRegistered = currentHeight;
-                Resizing(deltaWidth, deltaHeight);
-                Repaint();
-            }
-        }
-
-        private void InitializeWindow()
-        {
-            float standardHeight = EditorGUIUtility.singleLineHeight;
-
-            MyrmidonEditorLayoutElement searchBar = new MyrmidonEditorLayoutElement(0, standardHeight, 1, 0);
-            searchBar.AssignDrawAction(SearchBar);
-            //searchBar.AssignBackgroundColor(Color.red);
-            MyrmidonEditorLayoutElement empty = new MyrmidonEditorLayoutElement(0,0,1,1);
-            empty.AssignBackgroundColor(Color.blue);
-
-            MyrmidonEditorLayout layout = new MyrmidonEditorVerticalLayout(new List<MyrmidonEditorLayoutElement> { searchBar, empty }, true, true, false);
-            layout.AssignRect(new Rect(0, 0, position.width, position.height));
-            layout.Spacing = 0f;
-            layout.SetPadding(10, 10, 10, 10);
-            layout.ComputeRects();
-            mainLayout = layout;
-            /*MyrmidonEditorLayoutElement panel01 = new MyrmidonEditorLayoutElement(0, 0, 1, 10); //20
-            MyrmidonEditorLayoutElement panel02 = new MyrmidonEditorLayoutElement(0, 0, 1, 10); //30
-            MyrmidonEditorLayoutElement panel03 = new MyrmidonEditorLayoutElement(0, 0, 1, 10); //50
-            MyrmidonEditorLayoutElement panel04 = new MyrmidonEditorLayoutElement(0, 0, 1, 70); //50
-
-            panel01.AssignBackgroundColor(Color.blue);
-            panel02.AssignBackgroundColor(Color.red);
-            panel03.AssignBackgroundColor(Color.green);
-            panel04.AssignBackgroundColor(Color.yellow);
-
-            MyrmidonEditorLayout panelLayout = new MyrmidonEditorHorizontalLayout(new List<MyrmidonEditorLayoutElement> { panel01, panel02, panel03, panel04 }, false, false, true);
-            panelLayout.AssignRect(new Rect(0, 0, position.width, position.height));
-            panelLayout.SetPadding(30, 30, 30, 30);
-            panelLayout.AssignBackgroundColor(Color.cyan);
-            panelLayout.ComputeRects();
-
-            mainLayout = panelLayout;*/
-        }
-
-        private void Resizing(float deltaWidth, float deltaHeight)
-        {
-            if (mainLayout != null)
-            {
-                mainLayout.ProcessResizing(deltaWidth, deltaHeight);
-            }
-        }
-
-        private void OnGUI()
-        {
-            if (mainLayout != null)
-            {
-                mainLayout.Draw();
-                bool repaintEvents = mainLayout.ProcessEvents(Event.current);
-                if (repaintEvents || GUI.changed)
-                {
-                    Repaint();
-                }
-            }
-
-            //TestLayoutVertical();
-            //TestLayoutVerticalThenHorizontal();
-        }
-
+        
+        #endregion
+		
+        #endregion
+		
+        #region Protected / Privates
+		
+        #region Commons
+        
         private void SearchBar(Rect rect)
         {
-            string searchString = "";
+	        string searchString = "";
 
-            EditorGUIUtility.labelWidth = 0;
-            EditorGUIUtility.fieldWidth = 0;
+	        EditorGUIUtility.labelWidth = 0;
+	        EditorGUIUtility.fieldWidth = 0;
 
-            GUILayout.BeginHorizontal(/*GUI.skin.FindStyle("Toolbar")*/);
-            searchString = GUILayout.TextField(searchString, GUI.skin.FindStyle("ToolbarSeachTextField"));
-            if (GUILayout.Button("", GUI.skin.FindStyle("ToolbarSeachCancelButton")))
-            {
-                // Remove focus if cleared
-                searchString = "";
-                GUI.FocusControl(null);
-            }
-            GUILayout.EndHorizontal();
+	        GUILayout.BeginHorizontal();
+	        _mInformations.SearchBarText = GUILayout.TextField(_mInformations.SearchBarText, GUI.skin.FindStyle("ToolbarSeachTextField"));
+	        if (GUILayout.Button("", GUI.skin.FindStyle("ToolbarSeachCancelButton")))
+	        {
+		        _mInformations.SearchBarText = null;
+		        GUI.FocusControl(null);
+	        }
+	        GUILayout.EndHorizontal();
         }
+
+        private void ButtonCreate(Rect rect)
+        {
+	        GUILayout.BeginHorizontal();
+	        GUILayout.FlexibleSpace();
+	        if (GUILayout.Button("Create Locales"))
+	        {
+		        
+	        }
+	        GUILayout.EndHorizontal();
+        }
+        
+        private void Buttons(Rect rect)
+        {
+	        string searchString = "";
+
+	        EditorGUIUtility.labelWidth = 0;
+	        EditorGUIUtility.fieldWidth = 0;
+
+	        GUILayout.BeginHorizontal();
+
+	        if (GUILayout.Button("Select All"))
+	        {
+				_mInformations.SelectAllLanguages(true);
+	        }
+
+	        if (GUILayout.Button("Deselect All"))
+	        {
+		        _mInformations.SelectAllLanguages(false);
+	        }
+
+	        GUILayout.EndHorizontal();
+        }
+
+        private void Scroll(Rect rect)
+        {
+	        // Draw scroll header
+	        GUILayout.BeginVertical();
+	        {
+		        GUIStyle styleBoxMarginless = GUI.skin.box;
+		        styleBoxMarginless.margin = new RectOffset(0, 0, 0, 5);
+		        styleBoxMarginless.padding = new RectOffset(0, 0, 0, 0);
+
+		        GUILayout.BeginHorizontal(styleBoxMarginless);
+		        {
+			        GUILayout.BeginHorizontal();
+			        {
+				        GUILayout.BeginHorizontal();
+				        GUILayout.FlexibleSpace();
+				        GUILayout.Label("Name");
+				        GUILayout.FlexibleSpace();
+				        GUILayout.EndHorizontal();
+
+				        GUILayout.BeginHorizontal();
+				        GUILayout.Label("|");
+				        GUILayout.EndHorizontal();
+
+				        GUILayout.BeginHorizontal();
+				        GUILayout.FlexibleSpace();
+				        GUILayout.Label("Code");
+				        GUILayout.FlexibleSpace();
+				        GUILayout.EndHorizontal();
+			        }
+			        GUILayout.EndHorizontal();
+
+		        }
+		        GUILayout.EndHorizontal();
+		        
+		        GUILayout.BeginVertical(styleBoxMarginless);
+		        
+		        // Draw scroll content
+		        _mScrollviewPosition = GUILayout.BeginScrollView(_mScrollviewPosition, false, false);
+		        List<LocaleCreatorLanguage> languages = _mInformations.GetLanguagesMatching(_mInformations.SearchBarText);
+		        
+		        for (int i = 0; i < languages.Count; i++)
+		        {
+			        LocaleCreatorLanguage language = languages[i];
+			        
+			        GUIStyle styleSelected = new GUIStyle();
+			        GUIStyle styleHorizontal = new GUIStyle();
+			        GUIStyle styleHorizontal2 = new GUIStyle();
+			        styleHorizontal.normal.background = MakeTex(new Color(0.8f, 0.8f, 0.8f));
+			        styleHorizontal2.normal.background = MakeTex(new Color(0.9f, 0.9f, 0.9f));
+
+			        GUIStyle styleHorizontal3 = new GUIStyle();
+			        styleHorizontal3.normal.background = MakeTex(Color.blue);
+			        GUIStyle styleHorizontal4 = new GUIStyle();
+			        styleHorizontal4.normal.background = MakeTex(Color.red);
+			        styleSelected = (i % 2 == 0) ? (styleHorizontal) : (styleHorizontal2);
+			        
+			        GUILayout.BeginHorizontal(styleSelected);
+			        
+			        GUILayout.BeginHorizontal(GUILayout.Width((rect.width / 2)));
+			        language._mSelected = GUILayout.Toggle(language._mSelected, language._mName);
+			        GUILayout.EndHorizontal();
+
+			        GUILayout.BeginHorizontal();
+			        GUILayout.Label(language._mCode);
+			        GUILayout.EndHorizontal();
+			        
+			        GUILayout.EndHorizontal();
+		        }
+	        
+		        GUILayout.EndScrollView();
+		        GUILayout.EndVertical();
+				
+	        }
+	        GUILayout.EndVertical();
+	        
+
+        }
+        
+        public static void DrawUILine(Color color, int thickness = 2, int padding = 10)
+        {
+	        Rect r = EditorGUILayout.GetControlRect(GUILayout.Height(padding+thickness));
+	        r.height = thickness;
+	        r.y+=padding/2;
+	        r.x-=2;
+	        r.width +=6;
+	        EditorGUI.DrawRect(r, color);
+        }
+
+        public static Texture2D MakeTex(Color color, int width = 1, int height = 1)
+        {
+	        Color[] pix = new Color[width*height];
+ 
+	        for(int i = 0; i < pix.Length; i++)
+		        pix[i] = color;
+ 
+	        Texture2D result = new Texture2D(width, height);
+	        result.SetPixels(pix);
+	        result.Apply();
+ 
+	        return result;
+        }
+        
+        #endregion		
+        #region Abstract / Virtuals / Overrides
+        #endregion
+		
+        #endregion
+		
+        #endregion
     }
 }
 

@@ -133,8 +133,8 @@
             }
 
             _mRect = newResizableRect;
-            _mPreviousPanel.AssignRect(newPreviousRect);
-            _mNextPanel.AssignRect(newNextRect);
+            _mPreviousPanel.SetRect(newPreviousRect);
+            _mNextPanel.SetRect(newNextRect);
         }
 
         public override void Draw()

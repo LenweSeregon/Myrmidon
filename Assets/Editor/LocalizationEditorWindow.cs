@@ -5,53 +5,27 @@
     using UnityEngine;
     using UnityEditor;
 
-    public class LocalizationEditorWindow : EditorWindow
+    public class LocalizationEditorWindow : MyrmidonEditorWindow
     {
         #region Constantes
         private const string WINDOW_NAME = "Localization";
-
         #endregion
-
-        #region Internals Fields
-        private MyrmidonEditorLayout mainLayout;
-        private float m_lastWidthRegistered;
-        private float m_lastHeightRegistered;
         
+        #region Fields
         #endregion
 
         [MenuItem("Window/Myrmidon/Localization")]
         private static void OpenLocalizationWindow()
         {
-            LocalizationEditorWindow window = GetWindow<LocalizationEditorWindow>();
+            MyrmidonEditorWindow window = GetWindow<LocalizationEditorWindow>();
             window.titleContent = new GUIContent(WINDOW_NAME);
-            window.m_lastWidthRegistered = window.position.width;
-            window.m_lastHeightRegistered = window.position.height;
             window.InitializeWindow();
         }
 
-        private void OnValidate() 
+        public override void InitializeWindow()
         {
-            InitializeWindow();
-        }
-
-        private void Update()
-        {
-            float currentWidth = position.width;
-            float currentHeight = position.height;
-
-            if(currentWidth != m_lastWidthRegistered || currentHeight != m_lastHeightRegistered)
-            {
-                float deltaWidth =  currentWidth - m_lastWidthRegistered;
-                float deltaHeight = currentHeight - m_lastHeightRegistered;
-                m_lastWidthRegistered = currentWidth;
-                m_lastHeightRegistered = currentHeight;
-                Resizing(deltaWidth, deltaHeight);
-                Repaint();
-            }
-        }
-
-        private void InitializeWindow()
-        {
+            base.InitializeWindow();
+            
             MyrmidonEditorLayoutElement panel01 = new MyrmidonEditorLayoutElement(0, 0, 1, 10); //20
             MyrmidonEditorLayoutElement panel02 = new MyrmidonEditorLayoutElement(0, 0, 1, 10); //30
             MyrmidonEditorLayoutElement panel03 = new MyrmidonEditorLayoutElement(0, 0, 1, 10); //50
@@ -63,36 +37,12 @@
             panel04.AssignBackgroundColor(Color.yellow);
 
             MyrmidonEditorLayout panelLayout = new MyrmidonEditorHorizontalLayout(new List<MyrmidonEditorLayoutElement> { panel01, panel02, panel03, panel04 }, false, false, true);
-            panelLayout.AssignRect(new Rect(0, 0, position.width, position.height));
+            panelLayout.SetRect(new Rect(0, 0, position.width, position.height));
             panelLayout.SetPadding(30, 30, 30, 30);
             panelLayout.AssignBackgroundColor(Color.cyan);
             panelLayout.ComputeRects();
 
-            mainLayout = panelLayout;
-        }
-
-        private void Resizing(float deltaWidth, float deltaHeight)
-        {
-            if(mainLayout != null)
-            {
-                mainLayout.ProcessResizing(deltaWidth, deltaHeight);
-            }
-        }
-        
-        private void OnGUI() 
-        {
-            if(mainLayout != null)
-            {
-                mainLayout.Draw();
-                bool repaintEvents = mainLayout.ProcessEvents(Event.current);
-                if(repaintEvents|| GUI.changed)
-                {
-                    Repaint();
-                }
-            }
-                
-            //TestLayoutVertical();
-            //TestLayoutVerticalThenHorizontal();
+            _mWindowContainer = panelLayout;
         }
 
         private void TestLayoutVertical()
@@ -117,7 +67,7 @@
             panel04.AssignBackgroundColor(Color.yellow);
 
             MyrmidonEditorLayout panelLayout = new MyrmidonEditorHorizontalLayout(new List<MyrmidonEditorLayoutElement>{panel01, panel02, panel03, panel04}, false, false, true);
-            panelLayout.AssignRect(new Rect(0, 0,position.width, position.height));
+            panelLayout.SetRect(new Rect(0, 0,position.width, position.height));
             panelLayout.SetPadding(30, 30, 30, 30);
             panelLayout.AssignBackgroundColor(Color.cyan);
 
@@ -149,7 +99,7 @@
 
             MyrmidonEditorLayout panelLayout = new MyrmidonEditorVerticalLayout(new List<MyrmidonEditorLayoutElement>{panel01, panel02, panel03, panel04}, false, false, false);
             panelLayout.Spacing = 10f;
-            panelLayout.AssignRect(new Rect(0, 0,position.width, position.height));
+            panelLayout.SetRect(new Rect(0, 0,position.width, position.height));
             panelLayout.SetPadding(30, 30, 30, 30);
             panelLayout.AssignBackgroundColor(Color.cyan);
 

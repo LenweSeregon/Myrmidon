@@ -1,0 +1,59 @@
+﻿namespace Myrmidon
+{
+	using System;
+	using System.Collections;
+	using System.Collections.Generic;
+	using UnityEngine;
+
+	public class Foo : MonoBehaviour
+	{
+		//==========================================
+		// Constantes
+		//==========================================
+		#region Constantes
+		#endregion
+		
+		//==========================================
+		// Fields
+		//==========================================
+		#region Fields
+		
+		#region Serialized Fields
+		#endregion
+		
+		#region Internal Fields
+		#endregion
+		
+		#endregion
+		
+		//==========================================
+		// Methods
+		//==========================================
+		#region Methods
+		
+		#region Constructors / Lifecycle
+		#endregion
+		
+		#region Publics
+		
+		#region Commons
+		#endregion
+		#region Getters / Setters
+		#endregion
+		#region Abstracts / Virtuals / Overrides 	
+		#endregion
+		
+		#endregion
+		
+		#region Protected / Privates
+		
+		#region Commons
+		#endregion		
+		#region Abstract / Virtuals / Overrides
+		#endregion
+		
+		#endregion
+		
+		#endregion
+	}
+}

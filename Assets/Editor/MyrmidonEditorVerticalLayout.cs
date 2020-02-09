@@ -98,7 +98,7 @@
                 // Assigning rects
                 for(int i = 0; i < _mElements.Count; i++)
                 {
-                    _mElements[i].AssignRect(rects[i]);
+                    _mElements[i].SetRect(rects[i]);
                 }
             }
         }
@@ -153,7 +153,7 @@
 
                 Rect rect = element.Rect;
                 rect.y += heightToAdd;
-                element.AssignRect(rect);
+                element.SetRect(rect);
 
                 if (element.IsResizableHeight)
                     heightToAdd += heightAttributed;

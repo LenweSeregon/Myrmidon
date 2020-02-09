@@ -1,4 +1,4 @@
-﻿namespace Myrmidon
+﻿namespace Myrmidon.Localization
 {
     using System.Collections;
     using System.Collections.Generic;
