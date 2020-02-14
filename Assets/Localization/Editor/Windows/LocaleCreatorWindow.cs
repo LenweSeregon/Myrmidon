@@ -1,5 +1,6 @@
 ﻿namespace Myrmidon.Localization.Editor
 {
+    using System.IO;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
@@ -127,7 +128,27 @@
 	        GUILayout.FlexibleSpace();
 	        if (GUILayout.Button("Create Locales"))
 	        {
-		        
+		        LocalizationSO localization = LocalizationUtility.RetrieveLocalization();
+		        string pathLocalization = AssetDatabase.GetAssetPath(localization);
+                if(localization != null && string.IsNullOrEmpty(pathLocalization) == false)
+                {
+                    foreach (LocaleLanguageEditor language in _mInformations.GetLanguagesSelected())
+                    {
+                        if (localization.LocaleExists(language._mLanguage) == false)
+                        {
+	                        
+                            string pathLocale = Path.Combine(Path.GetDirectoryName(pathLocalization), "Locale - " + language._mName + ".asset");
+                            Debug.Log(pathLocale);
+                            LocalizationLocaleSO locale = ScriptableObject.CreateInstance<LocalizationLocaleSO>();
+                            locale.Init(language._mLanguage, language._mName, language._mCode);
+                            localization.AddLocale(locale);
+                            AssetDatabase.CreateAsset(locale, pathLocale);
+                            EditorUtility.SetDirty(localization);
+                            AssetDatabase.SaveAssets();
+                            AssetDatabase.Refresh();
+                        }
+                    }
+                }
 	        }
 	        GUILayout.EndHorizontal();
         }
@@ -192,23 +213,33 @@
 		        
 		        // Draw scroll content
 		        _mScrollviewPosition = GUILayout.BeginScrollView(_mScrollviewPosition, false, false);
-		        List<LocaleCreatorLanguage> languages = _mInformations.GetLanguagesMatching(_mInformations.SearchBarText);
+		        List<LocaleLanguageEditor> languages = _mInformations.GetLanguagesMatching(_mInformations.SearchBarText);
 		        
 		        for (int i = 0; i < languages.Count; i++)
 		        {
-			        LocaleCreatorLanguage language = languages[i];
-			        
+			        LocaleLanguageEditor language = languages[i];
+                    
 			        GUIStyle styleSelected = new GUIStyle();
-			        GUIStyle styleHorizontal = new GUIStyle();
+                    GUIStyle styleHorizontal = new GUIStyle();
 			        GUIStyle styleHorizontal2 = new GUIStyle();
-			        styleHorizontal.normal.background = MakeTex(new Color(0.8f, 0.8f, 0.8f));
-			        styleHorizontal2.normal.background = MakeTex(new Color(0.9f, 0.9f, 0.9f));
+
+                    if(EditorGUIUtility.isProSkin)
+                    {
+                        styleHorizontal.normal.background = MakeTex(new Color(0.2f, 0.2f, 0.2f));
+                        styleHorizontal2.normal.background = MakeTex(new Color(0.3f, 0.3f, 0.3f));
+                    }
+                    else
+                    {
+                        styleHorizontal.normal.background = MakeTex(new Color(0.8f, 0.8f, 0.8f));
+                        styleHorizontal2.normal.background = MakeTex(new Color(0.9f, 0.9f, 0.9f));
+                    }
+
 
 			        GUIStyle styleHorizontal3 = new GUIStyle();
 			        styleHorizontal3.normal.background = MakeTex(Color.blue);
 			        GUIStyle styleHorizontal4 = new GUIStyle();
 			        styleHorizontal4.normal.background = MakeTex(Color.red);
-			        styleSelected = (i % 2 == 0) ? (styleHorizontal) : (styleHorizontal2);
+                    styleSelected = (i % 2 == 0) ? (styleHorizontal) : (styleHorizontal2);
 			        
 			        GUILayout.BeginHorizontal(styleSelected);
 			        

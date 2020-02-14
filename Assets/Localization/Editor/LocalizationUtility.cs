@@ -1,82 +1,76 @@
-﻿namespace Myrmidon.Localization
+﻿namespace Myrmidon.Localization.Editor
 {
-	using System;
-	using System.Collections;
-	using System.Collections.Generic;
-	using UnityEngine;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UnityEditor;
 
-	[CreateAssetMenu(fileName = "LocalizationLocale", menuName = "Myrmidon/Localization/Locale")] 
-	public class LocalizationLocaleSO : ScriptableObject
-	{
+    public class LocalizationUtility : MonoBehaviour
+    {
         //==========================================
         // Constantes
         //==========================================
         #region Constantes
         #endregion
-
+		
         //==========================================
         // Fields
         //==========================================
         #region Fields
-
+		
         #region Serialized Fields
-        [SerializeField] private SystemLanguage _mLanguage = default;
-        [SerializeField] private string _mName = default;
-        [SerializeField] private string _mIdentifier = default;
         #endregion
-
+		
         #region Internal Fields
-
         #endregion
-
+		
         #endregion
-
-        //==========================================
-        // Properties
-        //==========================================
-        #region Properties
-
-        public SystemLanguage Language => _mLanguage;
-        public string Name => _mName;
-        public string Identifier => _mIdentifier;
-        
-        #endregion
-
+		
         //==========================================
         // Methods
         //==========================================
         #region Methods
-
+		
         #region Constructors / Lifecycle
         #endregion
-
+		
         #region Publics
-
+		
         #region Commons
-        public void Init(SystemLanguage language, string name, string identifier)
-        {
-	        _mLanguage = language;
-            _mName = name;
-            _mIdentifier = identifier;
-        }
 
+        public static LocalizationSO RetrieveLocalization()
+        {
+	        string[] guids = AssetDatabase.FindAssets("t:LocalizationSO");
+
+	        if (guids.Length > 0)
+	        {
+		        string guid = guids[0];
+		        string path = AssetDatabase.GUIDToAssetPath(guid);
+		        return AssetDatabase.LoadAssetAtPath<LocalizationSO>(path);
+	        }
+	        else
+	        {
+		        return null;
+	        }
+        }
+        
         #endregion
         #region Getters / Setters
         #endregion
         #region Abstracts / Virtuals / Overrides 	
         #endregion
-
+		
         #endregion
-
+		
         #region Protected / Privates
-
+		
         #region Commons
-        #endregion
+        #endregion		
         #region Abstract / Virtuals / Overrides
         #endregion
-
+		
         #endregion
-
+		
         #endregion
-    }
+    }  
 }

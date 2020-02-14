@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8a4bf9ccf987dd44a893a4becdabf3a, type: 3}
+  m_Name: Texts - Mapper
+  m_EditorClassIdentifier: 
+  _mTableName: Texts
+  _mLocalesAssets:
+  - {fileID: -5754681200786249659, guid: 329d905de2a10654ba0ddbcb9f84b3a8, type: 2}
+  - {fileID: -1245169853749610907, guid: 7648f4aa173bb3f42b81dc851f015892, type: 2}

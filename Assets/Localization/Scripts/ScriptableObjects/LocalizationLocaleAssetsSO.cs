@@ -1,20 +1,18 @@
 ﻿namespace Myrmidon.Localization
 {
-	using System;
 	using System.Collections;
 	using System.Collections.Generic;
 	using UnityEngine;
 
-	[CreateAssetMenu(fileName = "LocalizationHolder", menuName = "Myrmidon/Localization/LocalizationHolder")] 
-	public class LocalizationHolderSO : ScriptableObject
+	[CreateAssetMenu(fileName = "LocalizationLocaleAssets", menuName = "Myrmidon/Localization/LocaleAssets")] 
+	public class LocalizationLocaleAssetsSO : ScriptableObject
 	{
 		//==========================================
 		// Constantes
 		//==========================================
 		#region Constantes
 		#endregion
-
-
+		
 		//==========================================
 		// Fields
 		//==========================================
@@ -22,7 +20,8 @@
 		
 		#region Serialized Fields
 
-		[SerializeField] private LocalizationLocaleSO[] _mLocales;
+		[SerializeField] private SystemLanguage _mLanguage;
+		[SerializeField] private List<LocalizationAsset> _mAsset;
 
 		#endregion
 
@@ -45,6 +44,12 @@
 		#region Publics
 
 		#region Commons
+
+		public void Init(SystemLanguage language)
+		{
+			_mLanguage = language;
+			_mAsset = new List<LocalizationAsset>();
+		}
 
 		#endregion
 

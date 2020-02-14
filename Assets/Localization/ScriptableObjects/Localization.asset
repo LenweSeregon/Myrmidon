@@ -10,5 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 296d1c6803d25274a9a35f86c01c9e64, type: 3}
-  m_Name: LocalizationHolder
+  m_Name: Localization
   m_EditorClassIdentifier: 
+  _mLocales:
+  - {fileID: 11400000, guid: 329d905de2a10654ba0ddbcb9f84b3a8, type: 2}
+  - {fileID: 11400000, guid: 7648f4aa173bb3f42b81dc851f015892, type: 2}
+  _mTables:
+  - {fileID: 11400000, guid: 6fa99fe50e282604c9245e36c19c21dd, type: 2}
+  - {fileID: 11400000, guid: 1986f104ecaeb2c408234aaa5cccb14c, type: 2}
