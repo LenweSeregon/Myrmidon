@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8a4bf9ccf987dd44a893a4becdabf3a, type: 3}
-  m_Name: Textures - Mapper
+  m_Name: Textsss - Mapper
   m_EditorClassIdentifier: 
-  _mTableName: Textures
-  _mLocalesAssets:
-  - {fileID: 2950999767136356213, guid: 329d905de2a10654ba0ddbcb9f84b3a8, type: 2}
-  - {fileID: -7419244583341549781, guid: 7648f4aa173bb3f42b81dc851f015892, type: 2}
+  TableName: Textsss
+  LocalesAssets:
+  - {fileID: 11400000, guid: 72062796271ccc849a0a6005924e4fdc, type: 2}
+  - {fileID: 11400000, guid: 6cc1c8a277526ff46b6a0e5f124b63c8, type: 2}

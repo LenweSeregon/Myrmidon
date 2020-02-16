@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\serfn\.Rider2019.3\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\serfn\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Myrmidon.1161155188.00" t="ExcludeRecursive" />
-    <e p="D:\Projects\Myrmidon" t="IncludeRecursive">
+    <e p="C:\Users\Seregone\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Seregone\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Myrmidon.-651577885.00" t="ExcludeRecursive" />
+    <e p="D:\UnityProjects\Myrmidon" t="IncludeRecursive">
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
@@ -14,6 +14,7 @@
           <e p="MyrmidonEditorLayout.cs" t="Include" />
           <e p="MyrmidonEditorLayoutElement.cs" t="Include" />
           <e p="MyrmidonEditorResizerElement.cs" t="Include" />
+          <e p="MyrmidonEditorUtility.cs" t="Include" />
           <e p="MyrmidonEditorVerticalLayout.cs" t="Include" />
           <e p="MyrmidonEditorWindow.cs" t="Include" />
         </e>
@@ -22,6 +23,11 @@
             <e p="AssetTablesInformations.cs" t="Include" />
             <e p="LocaleCreatorInformations.cs" t="Include" />
             <e p="LocalizationUtility.cs" t="Include" />
+            <e p="TableTypes" t="Include">
+              <e p="LocalizationScriptableObjectsEditor.cs" t="Include" />
+              <e p="LocalizationTableEditor.cs" t="Include" />
+              <e p="LocalizationTexturesEditor.cs" t="Include" />
+            </e>
             <e p="Windows" t="Include">
               <e p="LocaleCreatorWindow.cs" t="Include" />
               <e p="LocalizationAssetsTablesWindow.cs" t="Include" />
@@ -31,7 +37,6 @@
             <e p="ScriptableObjects" t="Include">
               <e p="LocalizationAsset.cs" t="Include" />
               <e p="LocalizationAssetTableSO.cs" t="Include" />
-              <e p="LocalizationKeyMapperSO.cs" t="Include" />
               <e p="LocalizationLocaleAssetsSO.cs" t="Include" />
               <e p="LocalizationLocaleSO.cs" t="Include" />
               <e p="LocalizationSO.cs" t="Include" />

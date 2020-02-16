@@ -76,6 +76,11 @@ namespace Myrmidon.Localization
 		        _mTables.Add(table);
 	        }
 		}
+
+        public void RemoveAssetTable(LocalizationAssetTableSO table)
+        {
+	        _mTables?.Remove(table);
+        }
         
 		#endregion
 

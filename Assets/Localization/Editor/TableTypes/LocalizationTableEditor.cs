@@ -1,73 +1,62 @@
-﻿namespace Myrmidon.Localization
+﻿namespace Myrmidon.Localization.Editor
 {
+	using System;
 	using System.Collections;
 	using System.Collections.Generic;
 	using UnityEngine;
+	using UnityEditor;
 
-	[CreateAssetMenu(fileName = "LocalizationLocaleAssets", menuName = "Myrmidon/Localization/LocaleAssets")] 
-	public class LocalizationLocaleAssetsSO : ScriptableObject
+	public abstract class LocalizationTableEditor
 	{
 		//==========================================
 		// Constantes
 		//==========================================
 		#region Constantes
 		#endregion
-		
+
+
 		//==========================================
 		// Fields
 		//==========================================
 		#region Fields
 		
 		#region Serialized Fields
-
-		[SerializeField] private SystemLanguage _mLanguage;
-		[SerializeField] private List<LocalizationAsset> _mAsset;
-
 		#endregion
-
+		
 		#region Internal Fields
-
+		
+		protected Vector2 _mScrollViewEditAssetsPosition;
+		protected Vector2 _mScrollViewAdditionalsPosition;
 		#endregion
-
-		#endregion
-
-		//==========================================
-		// Properties
-		//==========================================
-		#region Properties
-
-		public SystemLanguage Language => _mLanguage;
 		
 		#endregion
 		
 		//==========================================
 		// Methods
 		//==========================================
-
 		#region Methods
-
+		
 		#region Constructors / Lifecycle
 
-		#endregion
-
-		#region Publics
-
-		#region Commons
-
-		public void Init(SystemLanguage language)
+		public LocalizationTableEditor()
 		{
-			_mLanguage = language;
-			_mAsset = new List<LocalizationAsset>();
+			_mScrollViewEditAssetsPosition = Vector2.zero;
+			_mScrollViewAdditionalsPosition = Vector2.zero;
 		}
-
+		
 		#endregion
-
+		
+		#region Publics
+		
+		#region Commons
+		#endregion
 		#region Getters / Setters
-
 		#endregion
-
 		#region Abstracts / Virtuals / Overrides
 
+		public abstract void DrawScrollRectAssets(Rect rect);
+		public abstract void DrawScrollRectAdditionals(Rect rect);
+		
 		#endregion
 
 		#endregion

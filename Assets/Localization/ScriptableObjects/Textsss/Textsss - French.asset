@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94ec9bb9a9efd714aa9d8f09ad01825d, type: 3}
-  m_Name: Locale - English
+  m_Script: {fileID: 11500000, guid: 1a1b919e0188d8e42a2f81e2e5d5ff3b, type: 3}
+  m_Name: Textsss - French
   m_EditorClassIdentifier: 
-  _mLanguage: 10
-  _mName: English
-  _mIdentifier: en
+  _mLanguage: 14

@@ -13,8 +13,14 @@ MonoBehaviour:
   m_Name: Localization
   m_EditorClassIdentifier: 
   _mLocales:
-  - {fileID: 11400000, guid: 329d905de2a10654ba0ddbcb9f84b3a8, type: 2}
   - {fileID: 11400000, guid: 7648f4aa173bb3f42b81dc851f015892, type: 2}
+  - {fileID: 11400000, guid: 329d905de2a10654ba0ddbcb9f84b3a8, type: 2}
+  - {fileID: 11400000, guid: c88b5f77d175a224e87339891bb31f69, type: 2}
+  - {fileID: 11400000, guid: 234985f21170bf04b9ada7f90a683014, type: 2}
+  - {fileID: 11400000, guid: 0bca716d989084a40b5b57c79503bc4e, type: 2}
+  - {fileID: 11400000, guid: eb2ea9cd7d5cee8449fccd50a82aa090, type: 2}
+  - {fileID: 11400000, guid: 21558711632fcd74682429f3f564143a, type: 2}
+  - {fileID: 11400000, guid: 314d3574eed0b9e4bbd19e1de9cbeba8, type: 2}
+  - {fileID: 11400000, guid: 08c155a8504676348b635d8013740a33, type: 2}
   _mTables:
-  - {fileID: 11400000, guid: 6fa99fe50e282604c9245e36c19c21dd, type: 2}
-  - {fileID: 11400000, guid: 1986f104ecaeb2c408234aaa5cccb14c, type: 2}
+  - {fileID: 11400000, guid: 395727afe7faf044a871934316a74f02, type: 2}

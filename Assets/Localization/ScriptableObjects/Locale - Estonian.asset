@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 94ec9bb9a9efd714aa9d8f09ad01825d, type: 3}
-  m_Name: Locale - English
+  m_Name: Locale - Estonian
   m_EditorClassIdentifier: 
-  _mLanguage: 10
-  _mName: English
-  _mIdentifier: en
+  _mLanguage: 11
+  _mName: Estonian
+  _mIdentifier: et

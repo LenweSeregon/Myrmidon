@@ -19,10 +19,7 @@
 		#region Fields
 		
 		#region Serialized Fields
-
-		[SerializeField] private string _mTableName = default;
-		[SerializeField] private List<LocalizationLocaleAssetsSO> _mLocalesAssets = default;
-
+		
 		#endregion
 
 		#region Internal Fields
@@ -36,8 +33,9 @@
 		//==========================================
 		#region Properties
 
-		public string TableName => _mTableName;
-
+		public string TableName;
+		public List<LocalizationLocaleAssetsSO> LocalesAssets;
+		
 		#endregion
 
 		//==========================================
@@ -56,13 +54,18 @@
 
 		public void Init(string tableName, List<LocalizationLocaleAssetsSO> localesAssets)
 		{
-			_mTableName = tableName;
-			_mLocalesAssets = localesAssets;
+			TableName = tableName;
+			LocalesAssets = localesAssets;
 		}
 
 		#endregion
 
 		#region Getters / Setters
+
+		public bool LocaleAssetExist(SystemLanguage language)
+		{
+			return LocalesAssets.Find(x => x.Language == language);
+		}
 
 		/*public void SetAsset()
 		{

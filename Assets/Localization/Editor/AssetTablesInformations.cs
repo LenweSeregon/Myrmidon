@@ -1,4 +1,6 @@
-﻿namespace Myrmidon.Localization.Editor
+﻿using System.Runtime.InteropServices;
+
+namespace Myrmidon.Localization.Editor
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -32,9 +34,12 @@
         //==========================================
         #region Properties
 
+        public string EditingTableName;
+        public string RegisteredTableName;
         public string TextTableName;
         public LocalizationAssetTableSO TableSelected;
-        
+        public LocalizationAssetTableSO CreateTableSelected;
+
         #endregion
         
         //==========================================
@@ -48,6 +53,9 @@
         public AssetTablesInformations(LocalizationAssetTableSO tableSelected)
         {
 	        TableSelected = tableSelected;
+	        CreateTableSelected = null;
+	        EditingTableName = (tableSelected != null) ? (tableSelected.TableName) : ("");
+	        RegisteredTableName = (tableSelected != null) ? (tableSelected.TableName) : ("");
 	        TextTableName = (tableSelected != null) ? (tableSelected.TableName) : ("");
 	        _mLanguages = new List<LocaleLanguageEditor>();
         }
@@ -58,10 +66,20 @@
 
         #region Commons
 
+        public void SelectAllLanguages(bool select)
+        {
+	        foreach (LocaleLanguageEditor language in _mLanguages)
+	        {
+		        language.SetSelected(select);
+	        }
+        }
+        
         public void SetTableSelected(LocalizationAssetTableSO tableSelected)
         {
 	        TableSelected = tableSelected;
 	        TextTableName = tableSelected.TableName;
+	        RegisteredTableName = tableSelected.TableName;
+	        EditingTableName = tableSelected.TableName;
         }
         
         public void SetLanguage(SystemLanguage systemLanguage, bool selected)
